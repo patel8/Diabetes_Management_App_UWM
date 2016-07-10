@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Diabetes Management</string>
+    <string name="Email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="login">Login</string>
+    <string name="sign_up">Sign up</string>
+    <string name="diabetes_management_label">Diabetes Management</string>
 </resources>
