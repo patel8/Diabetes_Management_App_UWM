@@ -6,4 +6,5 @@
     <color name="Black">#000000</color>
     <color name="Green">#00ff00</color>
     <color name="SignUpButtonColor">#535ab2</color>
+    <color name="add_activity_button_color">#5db04b</color>
 </resources>

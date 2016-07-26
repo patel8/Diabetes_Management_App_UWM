@@ -6,6 +6,9 @@
     <string name="login">Login</string>
     <string name="sign_up">Sign up</string>
     <string name="diabetes_management_label">Diabetes Management</string>
-    <string name= "addActivityButton">+ ADD ACTIVITY</string>
-    <string name= "fullNameLabel"> Full Name</string>
+    <string name="fullNameLabel"> Full Name</string>
+    <string name="label_history">History</string>
+    <string name="label_graph">Graph</string>
+    <string name="label_alarm">Alarm</string>
+    <string name="button_add_activity">+ ADD ACTIVITY</string>
 </resources>
