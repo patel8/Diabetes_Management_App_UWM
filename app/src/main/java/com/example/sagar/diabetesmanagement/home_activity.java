@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -60,10 +61,16 @@ public class home_activity extends AppCompatActivity {
                         //  Your code when user clicked on OK
                         //  You can write the code  to save the selected item here
 
+                        if(!seletedItems.isEmpty()) {
                             Intent intent = new Intent(getApplicationContext(), list_of_activity_to_add.class);
-                             //This list will contain the selected Activities.
+                            //This list will contain the selected Activities.
                             intent.putExtra("SelectedItem", seletedItems);
                             startActivity(intent);
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "No Activities selected!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override

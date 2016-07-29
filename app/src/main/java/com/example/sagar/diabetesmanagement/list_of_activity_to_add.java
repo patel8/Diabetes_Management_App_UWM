@@ -11,6 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -32,28 +33,16 @@ public class list_of_activity_to_add extends AppCompatActivity {
 
 
         //Set Reference to List View in Layout.
-        addActivity = (Button) findViewById(R.id.buttonAddActivityThroughList);
-        listView = (ListView) findViewById(R.id.listOfActivity);
-         finalList = getIntent().getStringArrayListExtra("SelectedItem");
-
-
+          addActivity = (Button) findViewById(R.id.buttonAddActivityThroughList);
+          listView = (ListView) findViewById(R.id.listOfActivity);
+          finalList = getIntent().getStringArrayListExtra("SelectedItem");
           titleAdapter = new custom_adapter(this, finalList);
-        listView.setAdapter(titleAdapter);
-
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String toast = ((Button) view).getText().toString();
-                Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
-            }
-        });
-
+          listView.setAdapter(titleAdapter);
 
     }
 
 
-
-
+    //This is ADD ACTIVITY BUTTON at bottom of screen. This will ask user to add more Activity and also will add it to the
     public void onButtonAddActivityThroughList(View view){
 
         final CharSequence[] items = {"Food","BGL","Exercise", "Medicine"};
@@ -76,8 +65,14 @@ public class list_of_activity_to_add extends AppCompatActivity {
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                       finalList.addAll(seletedItems);
-                        ((BaseAdapter)titleAdapter).notifyDataSetChanged();
+                        if(!seletedItems.isEmpty()) {
+                            finalList.addAll(seletedItems);
+                            ((BaseAdapter) titleAdapter).notifyDataSetChanged();
+                        }
+                        else
+                        {
+                            Toast.makeText(getApplicationContext(), "No Activities has been added!", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -86,11 +81,6 @@ public class list_of_activity_to_add extends AppCompatActivity {
                     }
                 }).create();
         dialog.show();
-
-
     }
-
-
-
 
 }

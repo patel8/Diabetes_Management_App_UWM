@@ -42,7 +42,8 @@
         android:id="@+id/txtValue"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:hint="Description" />
+        android:hint="Description"
+        android:background="@drawable/abc_edit_text_material" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -101,10 +102,9 @@
             android:ems="10"
             android:id="@+id/txtCalories"
             android:layout_weight="1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:hint="Optional" />
+            android:hint="Optional"
+            android:background="@android:drawable/editbox_background_normal"
+            android:layout_marginRight="10dp" />
 
         <Button
             android:layout_width="wrap_content"
@@ -115,7 +115,7 @@
             android:focusable="false"
             android:focusableInTouchMode="false"
             android:background="@color/add_activity_button_color"
-            android:onClick="onSaveButtonClick" />
+           />
     </LinearLayout>
 
 </LinearLayout>
