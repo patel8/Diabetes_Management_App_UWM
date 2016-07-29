@@ -1,41 +1,60 @@
 package com.example.sagar.diabetesmanagement;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.ListAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class home_activity extends AppCompatActivity {
+public class list_of_activity_to_add extends AppCompatActivity {
+
+    ListView listView;
+    Button addActivity;
+    ArrayList<String> finalList;
+    ListAdapter titleAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
-        refreshAverageGlucoceValues();
+        setContentView(R.layout.list_of_activity_to_add);
+
+
+        //Set Reference to List View in Layout.
+        addActivity = (Button) findViewById(R.id.buttonAddActivityThroughList);
+        listView = (ListView) findViewById(R.id.listOfActivity);
+         finalList = getIntent().getStringArrayListExtra("SelectedItem");
+
+
+          titleAdapter = new custom_adapter(this, finalList);
+        listView.setAdapter(titleAdapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String toast = ((Button) view).getText().toString();
+                Toast.makeText(getApplicationContext(), toast, Toast.LENGTH_LONG).show();
+            }
+        });
+
 
     }
 
-    // This method will add main_menu.xml to this activity.
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.main_menu, menu);
 
 
-        return true;
-    }
 
-    //This method will perform action when 'Add Activity button' is called.
-
-    public void onButtonAddActivityClick(View view){
+    public void onButtonAddActivityThroughList(View view){
 
         final CharSequence[] items = {"Food","BGL","Exercise", "Medicine"};
 // arraylist to keep the selected items
@@ -57,13 +76,8 @@ public class home_activity extends AppCompatActivity {
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //  Your code when user clicked on OK
-                        //  You can write the code  to save the selected item here
-
-                            Intent intent = new Intent(getApplicationContext(), list_of_activity_to_add.class);
-                             //This list will contain the selected Activities.
-                            intent.putExtra("SelectedItem", seletedItems);
-                            startActivity(intent);
+                       finalList.addAll(seletedItems);
+                        ((BaseAdapter)titleAdapter).notifyDataSetChanged();
                     }
                 }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
                     @Override
@@ -76,51 +90,6 @@ public class home_activity extends AppCompatActivity {
 
     }
 
-
-
-    public void refreshAverageGlucoceValues()
-    {
-        setDailyGlucoceText();
-        setMonthlyGlucoceText();
-        setWeeklyGlucoceText();
-    }
-
-
-    private void setDailyGlucoceText()
-    {
-
-        //Perform Database Operations in orderto get Daily Glucoze
-
-        TextView DailyTextView = (TextView) findViewById(R.id.txtDaily);
-        //Set the Text for Daily Text View
-
-
-
-    }
-
-    private void setWeeklyGlucoceText()
-    {
-
-        //Perform Database Operations in orderto get Daily Glucoze
-
-        TextView DailyTextView = (TextView) findViewById(R.id.txtWeekly);
-        //Set the Text for Weekly Text View
-
-
-
-    }
-
-    private void setMonthlyGlucoceText()
-    {
-
-        //Perform Database Operations in orderto get Daily Glucoze
-
-        TextView DailyTextView = (TextView) findViewById(R.id.txtMonthly);
-        //Set the Text for Monthly Text View
-
-
-
-    }
 
 
 

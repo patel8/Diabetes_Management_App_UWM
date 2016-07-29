@@ -17,8 +17,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".all_except_exercise_activity" />
-        <activity android:name=".exercise_activity"></activity>
+        <activity android:name=".all_activity_information" />
+        <activity android:name=".list_of_activity_to_add" />
+        <activity android:name=".custom_adapter"></activity>
     </application>
 
 </manifest>
