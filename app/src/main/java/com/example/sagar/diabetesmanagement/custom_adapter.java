@@ -12,26 +12,32 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.jar.Pack200;
 
 public class custom_adapter extends ArrayAdapter<String> {
 
 
+    DbHelper dbHelper;
     ArrayList<String> lists;
 
     public custom_adapter(Context c, ArrayList<String> list)
     {
 
+
         super(c, R.layout.inserting_information, list);
         lists = list;
+        dbHelper = new DbHelper(getContext());
+
+
     }
 
     @Override
@@ -65,8 +71,17 @@ public class custom_adapter extends ArrayAdapter<String> {
                 @Override
                 public void onClick(View view) {
                  //   DoSomething(infoHolder.value);
-                    lists.remove(infoHolder.position);
-                    notifyDataSetChanged();
+
+                    Activity_Information activity_information = infoHolder.getActivityInfomation();
+
+
+                    boolean result = dbHelper.insert(activity_information);
+                    if(result)
+                    Toast.makeText(getContext(), " DATA HAS BEEN STORED SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
+                    else
+                        Toast.makeText(getContext(), " SORRY!! DATA HAS BEEN NOT STORED SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
+
+
 
                 }
             });
@@ -101,6 +116,20 @@ public class custom_adapter extends ArrayAdapter<String> {
         public TextView endTime;
         public EditText apxcalorie;
         public LinearLayout DuartionLayout;
+
+        public Activity_Information getActivityInfomation()
+        {
+            Activity_Information result = new Activity_Information();
+            result.setEndTime(endTime.getText().toString());
+            result.setStartTime(startTime.getText().toString());
+            result.setValue(value.getText().toString());
+            result.setDate(DateView.getText().toString());
+            result.setApxCalory(apxcalorie.getText().toString());
+            result.setTime(TimeView.getText().toString());
+
+            return result;
+        }
+
     }
 
     public void setDate(final TextView dateWidget)
@@ -132,7 +161,7 @@ public class custom_adapter extends ArrayAdapter<String> {
 
         final int hour = 0;
         final int minute = 0;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
         String hourMin = dateFormat.format(new Date());
         timeWidget.setText(hourMin);
 
@@ -144,7 +173,17 @@ public class custom_adapter extends ArrayAdapter<String> {
                 Dialog dg = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hour, int minute) {
-                        timeWidget.setText(new StringBuilder().append(hour).append(" : ").append(minute));
+                        String am_pm = "PM";
+                        if(hour < 12)
+                        {
+                            am_pm = "AM";
+
+                        }
+                        else
+                        {
+                            hour -= 12;
+                        }
+                        timeWidget.setText(new StringBuilder().append(hour).append(" : ").append(minute).append(" ").append(am_pm));
                     }
                 }, hour, minute, false);
                 dg.show();
