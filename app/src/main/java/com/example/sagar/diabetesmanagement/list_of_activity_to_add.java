@@ -1,14 +1,12 @@
 package com.example.sagar.diabetesmanagement;
 
-import android.app.Activity;
+
 import android.content.DialogInterface;
-import android.content.Intent;
+
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -32,14 +30,19 @@ public class list_of_activity_to_add extends AppCompatActivity {
         setContentView(R.layout.list_of_activity_to_add);
 
 
+//        ActionBar actionBar = getActionBar();
+//        actionBar.setHomeButtonEnabled(true);
+//        actionBar.setDisplayHomeAsUpEnabled(true);
+
         //Set Reference to List View in Layout.
           addActivity = (Button) findViewById(R.id.buttonAddActivityThroughList);
           listView = (ListView) findViewById(R.id.listOfActivity);
           finalList = getIntent().getStringArrayListExtra("SelectedItem");
-          titleAdapter = new custom_adapter(this, finalList);
+          titleAdapter = new custom_adapter(getApplicationContext(), finalList);
           listView.setAdapter(titleAdapter);
 
     }
+
 
 
     //This is ADD ACTIVITY BUTTON at bottom of screen. This will ask user to add more Activity and also will add it to the

@@ -1,9 +1,11 @@
 package com.example.sagar.diabetesmanagement;
+import java.io.Serializable;
 
+@SuppressWarnings("serial")
 /**
  * Created by Sagar on 7/26/2016.
  */
-public class Activity_Information {
+public class Activity_Information implements Serializable {
 
 
     private String date;
@@ -13,6 +15,7 @@ public class Activity_Information {
     private String startTime;
     private String endTime;
     private String apxCalory;
+    private long id;
 
     public Activity_Information()
     {
@@ -83,5 +86,14 @@ public class Activity_Information {
 
     public void setApxCalory(String apxCalory) {
         this.apxCalory = apxCalory;
+    }
+
+    public void setId(long id)
+    {
+        this.id = id;
+    }
+    public long getId()
+    {
+        return id;
     }
 }

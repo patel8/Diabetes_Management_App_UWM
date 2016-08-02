@@ -72,7 +72,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
     }
     public boolean insert (Activity_Information info){
-        if(info.getLabel() == "BGL") {
+        if(info.getLabel().equals("BGL")) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cValues = new ContentValues();
             cValues.put(VALUE, info.getValue());
@@ -84,7 +84,7 @@ public class DbHelper extends SQLiteOpenHelper {
             } else {
                 return true;
             }
-        }else if (info.getLabel() == "Diet"){
+        }else if (info.getLabel().equals("Food")){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cValues = new ContentValues();
             cValues.put(DESCRIPTION, info.getValue());
@@ -96,7 +96,7 @@ public class DbHelper extends SQLiteOpenHelper {
             } else {
                 return true;
             }
-        }else if (info.getLabel() == "Medication"){
+        }else if (info.getLabel().equals("Medicine")){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cValues = new ContentValues();
             cValues.put(COMMENTS, info.getValue());
@@ -107,7 +107,7 @@ public class DbHelper extends SQLiteOpenHelper {
             } else {
                 return true;
             }
-        }else if (info.getLabel() == "Exercise"){
+        }else if (info.getLabel().equals("Exercise")){
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cValues = new ContentValues();
             cValues.put(DESCRIPTION, info.getValue());

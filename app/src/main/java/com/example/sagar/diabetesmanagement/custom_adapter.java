@@ -120,6 +120,7 @@ public class custom_adapter extends ArrayAdapter<String> {
         public Activity_Information getActivityInfomation()
         {
             Activity_Information result = new Activity_Information();
+            result.setLabel(label.getText().toString());
             result.setEndTime(endTime.getText().toString());
             result.setStartTime(startTime.getText().toString());
             result.setValue(value.getText().toString());

@@ -3,6 +3,7 @@ package com.example.sagar.diabetesmanagement;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -39,13 +40,19 @@ public class all_activity_information extends AppCompatActivity {
     private EditText apxCalory;
     private TextView startTime;
     private TextView endTime;
+    private Intent intent;
+    private Activity_Information activity_info;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inserting_information);
-        setTimeAndDate();
+
+
+
+        intent = getIntent();
+
 
 
         //Initialize all widgets
@@ -56,6 +63,8 @@ public class all_activity_information extends AppCompatActivity {
         DurationLayOut = (LinearLayout) findViewById(R.id.TimeContainer);
 
 
+
+
    //DurationLayOut.setVisibility(LinearLayout.GONE);
     }
 
@@ -63,7 +72,12 @@ public class all_activity_information extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         //This will set the current time and date to view.
+        if(intent==null)
         setTimeAndDate();
+        else
+        {
+            activity_info = intent.getSerializableExtra("activityInfo");
+        }
 
     }
 

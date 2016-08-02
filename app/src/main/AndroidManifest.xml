@@ -18,8 +18,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".all_activity_information" />
-        <activity android:name=".list_of_activity_to_add" />
-        <activity android:name=".custom_adapter"></activity>
+        <activity android:name=".list_of_activity_to_add"/>
+        <activity android:name=".custom_adapter"/>
     </application>
 
 </manifest>
