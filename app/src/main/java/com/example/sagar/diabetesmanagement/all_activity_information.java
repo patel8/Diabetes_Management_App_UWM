@@ -1,5 +1,6 @@
 package com.example.sagar.diabetesmanagement;
 
+
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
@@ -7,15 +8,13 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,24 +24,16 @@ public class all_activity_information extends AppCompatActivity {
 
     private TextView DateView;
     private TextView TimeView;
-    private DatePicker datePicker;
-    private Calendar calendar;
-    private final int DATE_PICKER = 0;
-    private final int TIME_PICKER = 1;
-    private int year, month, day;
-    private int hours, minute;
     private LinearLayout DurationLayOut;
-
-
+    private long _id;
     private Button saveButton;
     private EditText value;
     private TextView label;
     private EditText apxCalory;
     private TextView startTime;
     private TextView endTime;
+    private Button deleteButton;
     private Intent intent;
-    private Activity_Information activity_info;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,166 +44,109 @@ public class all_activity_information extends AppCompatActivity {
 
         intent = getIntent();
 
-
-
-        //Initialize all widgets
         saveButton = (Button) findViewById(R.id.saveButton);
+        DateView = (TextView) findViewById(R.id.dateView);
+        TimeView = (TextView) findViewById(R.id.timeView);
+        startTime = (TextView) findViewById(R.id.txtStartTime);
+        endTime = (TextView) findViewById(R.id.txtEndTime);
         value = (EditText) findViewById(R.id.txtValue);
         label = (TextView) findViewById(R.id.lblLabel);
         apxCalory = (EditText) findViewById(R.id.txtCalories);
         DurationLayOut = (LinearLayout) findViewById(R.id.TimeContainer);
+        deleteButton = (Button) findViewById(R.id.buttonDelete);
+        deleteButton.setVisibility(View.VISIBLE);
 
+            _id =  intent.getIntExtra("_id", 0);
+            label.setText(intent.getStringExtra("Label").toString());
+            DateView.setText(intent.getStringExtra("Date").toString());
+            TimeView.setText(intent.getStringExtra("Time").toString());
+            startTime.setText(intent.getStringExtra("StartTime").toString());
+            endTime.setText(intent.getStringExtra("EndTime").toString());
+            value.setText(intent.getStringExtra("Description").toString());
+            apxCalory.setText(intent.getStringExtra("ApxCalorie").toString());
 
+        setDate(DateView);
+        setTime(startTime);
+        setTime(endTime);
+        setTime(TimeView);
 
-
-   //DurationLayOut.setVisibility(LinearLayout.GONE);
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        //This will set the current time and date to view.
-        if(intent==null)
-        setTimeAndDate();
-        else
-        {
-            activity_info = intent.getSerializableExtra("activityInfo");
-        }
-
-    }
 
    // This function will handle ON 'SAVE' Button event.
-    public void onSaveButtonClick(View view)
+    public void onSaveButtonClick()
     {
 
-        Activity_Information activity = new Activity_Information();
+        saveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
-        activity.setDate(DateView.getText().toString());
-        activity.setTime(TimeView.getText().toString());
-        activity.setLabel(label.getText().toString());
-        activity.setValue(value.getText().toString());
-        activity.setStartTime(startTime.getText().toString());
-        activity.setEndTime(endTime.getText().toString());
+                Activity_Information activity = new Activity_Information();
 
-        //Send this object to Database to get added.
+                activity.setDate(DateView.getText().toString());
+                activity.setTime(TimeView.getText().toString());
+                activity.setLabel(label.getText().toString());
+                activity.setValue(value.getText().toString());
+                activity.setStartTime(startTime.getText().toString());
+                activity.setEndTime(endTime.getText().toString());
+                activity.setApxCalory(apxCalory.getText().toString());
+                activity.setId(_id);
+                //Send this object to Database to get added.
 
-    }
+            //    dbhelper.updateCurrentRowWithId(activity);
 
-    // This method should get called on OnCreate() and OnStart() in order to set current date and time.
-    public void setTimeAndDate()
-    {
-
-        //This is to initialize the Date and Time with initial Date.
-        DateView = (TextView) findViewById(R.id.dateView);
-        startTime = (TextView) findViewById(R.id.txtStartTime);
-        endTime = (TextView) findViewById(R.id.txtEndTime);
-        TimeView = (TextView) findViewById(R.id.timeView);
-        calendar = Calendar.getInstance();
-        year = calendar.get(Calendar.YEAR);
-        month = calendar.get(Calendar.MONTH);
-        day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
-        String hour = dateFormat.format(new Date());
-        TimeView.setText(hour);
-        showDate(year, month+1, day);
-
-    }
-
-
-    // Onclick Listener for Set Date
-    public void setDate(View view) {
-        showDialog(R.id.dateView);
-        //currentView = (TextView) view;
-    }
-
-    //OnClick Liseter for Set Time
-    public void setTime(View view)
-    {
-        showDialog(R.id.timeView);
-    }
-
-    //OnClick Liseter for Set Start Time
-    public void setStartTime(View view)
-    {
-        showDialog(R.id.txtStartTime);
-    }
-
-    //OnClick Liseter for Set Start Time
-    public void setEndTime(View view)
-    {
-        showDialog(R.id.txtEndTime);
-    }
-
-
-
-    @Override
-    protected Dialog onCreateDialog(int id) {
-        // TODO Auto-generated method stub
-        if (id == R.id.dateView) {
-            return new DatePickerDialog(this, myDateListener, year, month, day);
-        }
-        else if (id == R.id.timeView) {
-                return new TimePickerDialog(this, timePickerListener,hours,minute,false);
             }
-        else if(id == R.id.txtStartTime)
-        {
-            return new TimePickerDialog(this, StartTimePickerListener,hours,minute,false);
+        });
 
-        }
-        else if(id == R.id.txtEndTime)
-        {
-            return new TimePickerDialog(this, EndTimePickerListener, hours, minute, false);
-        }
-        return null;
     }
 
 
-
-
-    private TimePickerDialog.OnTimeSetListener timePickerListener = new TimePickerDialog.OnTimeSetListener() {
-                public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-                    showTime(selectedHour, selectedMinute);
-                }
-            };
-
-
-    private TimePickerDialog.OnTimeSetListener StartTimePickerListener = new TimePickerDialog.OnTimeSetListener() {
-                public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-                    showStartTime(selectedHour, selectedMinute);
-                }
-            };
-    private TimePickerDialog.OnTimeSetListener EndTimePickerListener = new TimePickerDialog.OnTimeSetListener() {
-                public void onTimeSet(TimePicker view, int selectedHour, int selectedMinute) {
-                    showEndTime(selectedHour, selectedMinute);
-                }
-            };
-
-    private DatePickerDialog.OnDateSetListener myDateListener = new DatePickerDialog.OnDateSetListener() {
-        @Override
-        public void onDateSet(DatePicker arg0, int arg1, int arg2, int arg3) {
-            showDate(arg1, arg2+1, arg3);
-        }
-    };
-
-
-    private void showDate(int year, int month, int day) {
-        DateView.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
-    }
-
-    private void showTime(int hour, int minute)
+    public void setDate(final TextView dateWidget)
     {
-        TimeView.setText(new StringBuilder().append(hour).append(" : ").append(minute));
+       final int year=0, month=0, day=0;
+
+        dateWidget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Dialog dg = new DatePickerDialog(all_activity_information.this, new DatePickerDialog.OnDateSetListener() {
+                    @Override
+                    public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                        dateWidget.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
+                    }
+                }, year, month, day);
+
+                dg.show();
+
+            }
+        });
+    }
+    public void setTime(final TextView timeWidget)
+    {
+
+        final int hour = 0;
+        final int minute = 0;
+
+
+        // THis is when they click on it.
+
+        timeWidget.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Dialog dg = new TimePickerDialog(getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker view, int hour, int minute) {
+
+                        timeWidget.setText(new StringBuilder().append(hour).append(":").append(minute));
+                    }
+                }, hour, minute, false);
+                dg.show();
+
+            }
+        });
     }
 
-    private void showStartTime(int hour, int minute)
-    {
-        startTime.setText(new StringBuilder().append(hour).append(" : ").append(minute));
-        endTime.setText(startTime.getText().toString());
-    }
 
-    private void showEndTime(int hour, int minute)
-    {
-       endTime.setText(new StringBuilder().append(hour).append(" : ").append(minute));
-    }
+
 }

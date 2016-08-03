@@ -2,6 +2,7 @@ package com.example.sagar.diabetesmanagement;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
@@ -11,7 +12,7 @@ import java.util.Date;
 public class DbHelper extends SQLiteOpenHelper {
     // Creating the database and their columns
 
-    public static final String DBNAME = "diabetes.db";
+    public static final String DBNAME = "diabetesManagementDB.db";
 
     public static final String TBLBGL = "tblBGL";
     public static final String BGLID = "BglId";
@@ -47,8 +48,33 @@ public class DbHelper extends SQLiteOpenHelper {
     //public static final String ENDTIME = "EndTime";
     public static final String DESIREDBGL = "DesiredBGL";
 
+    /**
+     *  long idDB = cursor.getLong(DbHelper.colId);
+     String label = cursor.getString(DbHelper.colLable);
+     String Date = cursor.getString(DbHelper.colDate);
+     String Time = cursor.getString(DbHelper.colTime);
+     String StartTime = cursor.getString(DbHelper.colStartTime);
+     String EndTime = cursor.getString(DbHelper.colEndTime);
+     String Description = cursor.getString(DbHelper.colDescription);
+     String ApxCalorie = cursor.getString(DbHelper.colApxCalorie);
+
+     * @param context
+     */
+    public static final String tblHistory = "history";
+    public static final String colId = "_id";
+    public static final String colLable = "lable";
+    public static final String colDate = "date";
+    public static final String colTime = "time";
+    public static final String colStartTime = "starttime";
+    public static final String colEndTime = "endtime";
+    public static final String colDescription = "description";
+    public static final String colApxCalorie = "apxcalorie";
+
+
+
+
     public DbHelper(Context context) {
-        super(context, DBNAME, null, 1);
+        super(context, DBNAME, null, 2);
     }
     // this method could be created automatically otherwise, I have to create them: onCreate (), onUpgrade
     @Override
@@ -60,6 +86,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "+ TBLEXERCISE +"("+EXERCISEID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + STARTTIME + " DATETIME, " + ENDTIME + " DATETIME, " + DESCRIPTION + " TEXT)");
         db.execSQL("CREATE TABLE "+ TBLMEDICATION +"("+MEDICATIONID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + AMOUNT + " INTEGER, " + COMMENTS + " TEXT, " + TIMESTAMP + " DATETIME)");
         db.execSQL("CREATE TABLE "+ TBLPERSCRIBEDREGIMEN +"("+PRESCRIBEDREGIMENID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + STARTTIME + " DATETIME, " + ENDTIME + " DATETIME, " + DIET + " TEXT, " + EXERCISE + " TEXT, " + MEDICATION + " TEXT, " + DESIREDBGL + " INTEGER)");
+        db.execSQL("CREATE TABLE "+ tblHistory +" ("+colId+" INTEGER PRIMARY KEY AUTOINCREMENT, " + colLable + " TEXT, " + colDate + " Date, " + colTime + " Time, " + colStartTime + " Time, " + colEndTime + " Time, " + colDescription + " Text, " + colApxCalorie +" Text)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
@@ -68,10 +95,33 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ TBLEXERCISE);
         db.execSQL("DROP TABLE IF EXISTS "+ TBLMEDICATION);
         db.execSQL("DROP TABLE IF EXISTS "+ TBLPERSCRIBEDREGIMEN);
+        db.execSQL("DROP TABLE IF EXISTS" + tblHistory);
         onCreate(db);
 
     }
-    public boolean insert (Activity_Information info){
+
+    public boolean insert(Activity_Information info) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cValues = new ContentValues();
+
+        //cValues.put(colId, info.getId());
+        cValues.put(colTime, info.getTime());
+        cValues.put(colApxCalorie, info.getApxCalory());
+        cValues.put(colDate, info.getDate());
+        cValues.put(colEndTime, info.getEndTime());
+        cValues.put(colDescription, info.getValue());
+        cValues.put(colStartTime, info.getStartTime());
+        cValues.put(colLable, info.getLabel());
+
+        long res = db.insert(tblHistory, null, cValues);
+        if (res == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean insertInfo (Activity_Information info){
         if(info.getLabel().equals("BGL")) {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues cValues = new ContentValues();
@@ -122,5 +172,28 @@ public class DbHelper extends SQLiteOpenHelper {
         }
         return false;
     }
+
+    /**
+     * getAllData(); rOrder By Date
+     * getInfoWithID(id);
+     * getWeeklyGlucoseLevel()  //AVERAGE IT
+     * getDailyGlucoseLevel()
+     * getMonthlyGlucoseLevel()
+     */
+    public Cursor getAllData() {
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor result = db.rawQuery("select * from "+ tblHistory + " order by "+ colDate + ", "+ colTime, null);
+
+        return result;
+    }
+
+    public Cursor getRowWithID(int id)
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery("select * from "+ tblHistory + " where "+colId+" = "+ id, null);
+        return result;
+    }
+
 
 }

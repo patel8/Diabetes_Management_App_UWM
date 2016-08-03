@@ -31,7 +31,8 @@
                 android:id="@+id/imageButtonHistory"
                 android:src="@mipmap/history_icon"
                 android:layout_weight="1"
-                android:background="#00000000" />
+                android:background="#00000000"
+                />
 
             <ImageButton
                 android:layout_width="wrap_content"

@@ -1,25 +1,17 @@
 package com.example.sagar.diabetesmanagement;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.menu.ListMenuItemView;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class history extends AppCompatActivity {
 
@@ -50,15 +42,27 @@ public class history extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        populateListItem();
+      populateListItem();
     }
 
     private void populateListItem() {
         Cursor DBRows= dbHelper.getAllData();
 
+//        while(DBRows.moveToFirst()) {
+//            int idDB = DBRows.getInt(0);
+//            String label = DBRows.getString(1);
+//            String Date = DBRows.getString(2);
+//            String Time = DBRows.getString(3);
+//            String StartTime = DBRows.getString(4);
+//            String EndTime = DBRows.getString(5);
+//            String Description = DBRows.getString(6);
+//            String ApxCalorie = DBRows.getString(7);
+//        }
+
 
         String[] fromFieldName = new String[]
                 {
+
                         DbHelper.colLable,
                         DbHelper.colDate,
                         DbHelper.colTime,
@@ -75,13 +79,8 @@ public class history extends AppCompatActivity {
 
                 };
 
-        SimpleCursorAdapter cursor = new SimpleCursorAdapter(
-                this,
-                R.layout.ui_history,
-                DBRows,
-                fromFieldName,
-                toViewIds
-        );
+        SimpleCursorAdapter cursor = new SimpleCursorAdapter(this,R.layout.ui_history,DBRows,fromFieldName,toViewIds);
+        listView.setAdapter(cursor);
 
 
     }
@@ -92,40 +91,38 @@ public class history extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
 
-                    Activity_Information activity_info = new Activity_Information();
-                    Cursor cursor = dbHelper.getInfoWithID(id);
+                    Toast.makeText(getApplicationContext(), " ID IS " + id, Toast.LENGTH_LONG).show();
 
-                    while(cursor.moveToFirst())
+                    Cursor cursor = dbHelper.getRowWithID((int)id);
+                    Intent intent = new Intent(getApplicationContext(), all_activity_information.class);
+
+                  while(cursor.moveToFirst())
                     {
-                        long idDB = cursor.getLong(DbHelper.colId);
-                        String label = cursor.getString(DbHelper.colLable);
-                        String Date = cursor.getString(DbHelper.colDate);
-                        String Time = cursor.getString(DbHelper.colTime);
-                        String StartTime = cursor.getString(DbHelper.colStartTime);
-                        String EndTime = cursor.getString(DbHelper.colEndTime);
-                        String Description = cursor.getString(DbHelper.colDescription);
-                        String ApxCalorie = cursor.getString(DbHelper.colApxCalorie);
+                       int idDB = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.colId)));
+                        String label = cursor.getString(cursor.getColumnIndex(DbHelper.colLable));
+                        String Date = cursor.getString(cursor.getColumnIndex(DbHelper.colDate));
+                        String Time = cursor.getString(cursor.getColumnIndex(DbHelper.colTime));
+                        String StartTime = cursor.getString(cursor.getColumnIndex(DbHelper.colStartTime));;
+                        String EndTime = cursor.getString(cursor.getColumnIndex(DbHelper.colEndTime));;
+                        String Description = cursor.getString(cursor.getColumnIndex(DbHelper.colDescription));;
+                        String ApxCalorie = cursor.getString(cursor.getColumnIndex(DbHelper.colApxCalorie));;
 
-                        activity_info = new Activity_Information();
-                        activity_info.setLabel(label);
-                        activity_info.setTime(Time);
-                        activity_info.setDate(Date);
-                        activity_info.setApxCalory(ApxCalorie);
-                        activity_info.setValue(Description);
 
-                        if(label.equals("Exercise"))
-                        {
-                            activity_info.setStartTime(StartTime);
-                            activity_info.setEndTime(EndTime);
-                        }
+                        intent.putExtra("_id", idDB);
+                        intent.putExtra("Label", label);
+                        intent.putExtra("Date", Date);
+                        intent.putExtra("Time", Time);
+                        intent.putExtra("StartTime", StartTime);
+                        intent.putExtra("EndTime", EndTime);
+                        intent.putExtra("Description", Description);
+                        intent.putExtra("ApxCalorie", ApxCalorie);
 
+                    break;
 
 
                     }
 
-                cursor.close();
-                    Intent intent = new Intent(getApplicationContext(), all_activity_information.class);
-                    intent.putExtra("activityInfo", activity_info);
+                    cursor.close();
                     startActivity(intent);
 
 

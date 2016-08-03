@@ -7,6 +7,7 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -23,22 +24,18 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.jar.Pack200;
 
-public class custom_adapter extends ArrayAdapter<String> {
+public class Changer extends ArrayAdapter<String> {
 
 
-    DbHelper dbHelper;
-    ArrayList<String> lists;
+   DbHelper dbHelper;
 
-    public custom_adapter(Context c, ArrayList<String> list)
+    public Changer(Context c, ArrayList<String> list)
     {
-
-
         super(c, R.layout.inserting_information, list);
-        lists = list;
         dbHelper = new DbHelper(getContext());
 
-
     }
+
 
     @Override
     public View getView(final int position, final View convertView, final ViewGroup parent) {
@@ -49,6 +46,7 @@ public class custom_adapter extends ArrayAdapter<String> {
             customView = inflater.inflate(R.layout.inserting_information, parent, false);
 
             infoHolder = new holder();
+
             infoHolder.saveButton = (Button) customView.findViewById(R.id.saveButton);
             infoHolder.value = (EditText) customView.findViewById(R.id.txtValue);
             infoHolder.label = (TextView) customView.findViewById(R.id.lblLabel);
@@ -58,24 +56,22 @@ public class custom_adapter extends ArrayAdapter<String> {
             infoHolder.startTime = (TextView) customView.findViewById(R.id.txtStartTime);
             infoHolder.endTime = (TextView) customView.findViewById(R.id.txtEndTime);
             infoHolder.TimeView = (TextView) customView.findViewById(R.id.timeView);
+
             infoHolder.label.setText(getItem(position));
-            infoHolder.position = position;
+
             if(!getItem(position).equals("Exercise"))
             {
                 infoHolder.DuartionLayout.setVisibility(LinearLayout.GONE);
             }
             
             //Set On SAVE button Listener.
-            //// TODO: 7/28/2016  Add All of this to database. 
+
             infoHolder.saveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                 //   DoSomething(infoHolder.value);
 
                     Activity_Information activity_information = infoHolder.getActivityInfomation();
-
-
-                    boolean result = dbHelper.insert(activity_information);
+                     boolean result = dbHelper.insert(activity_information);
                     if(result)
                     Toast.makeText(getContext(), " DATA HAS BEEN STORED SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
                     else
@@ -135,8 +131,8 @@ public class custom_adapter extends ArrayAdapter<String> {
 
     public void setDate(final TextView dateWidget)
     {
-       Calendar calendar = Calendar.getInstance();
-       final int  year = calendar.get(Calendar.YEAR);
+        Calendar calendar = Calendar.getInstance();
+        final int  year = calendar.get(Calendar.YEAR);
         final int  month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
         dateWidget.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
@@ -149,9 +145,10 @@ public class custom_adapter extends ArrayAdapter<String> {
                 Dialog dg = new DatePickerDialog(getContext(), new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateWidget.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
+                        dateWidget.setText(new StringBuilder().append(month+1).append("/").append(day).append("/").append(year));
                     }
                 }, year, month, day);
+                dg.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
                 dg.show();
 
             }
@@ -162,7 +159,7 @@ public class custom_adapter extends ArrayAdapter<String> {
 
         final int hour = 0;
         final int minute = 0;
-        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm:a");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
         String hourMin = dateFormat.format(new Date());
         timeWidget.setText(hourMin);
 
@@ -174,19 +171,10 @@ public class custom_adapter extends ArrayAdapter<String> {
                 Dialog dg = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hour, int minute) {
-                        String am_pm = "PM";
-                        if(hour < 12)
-                        {
-                            am_pm = "AM";
-
-                        }
-                        else
-                        {
-                            hour -= 12;
-                        }
-                        timeWidget.setText(new StringBuilder().append(hour).append(" : ").append(minute).append(" ").append(am_pm));
+                        timeWidget.setText(new StringBuilder().append(hour).append(":").append(minute));
                     }
                 }, hour, minute, false);
+                dg.getWindow().setType(WindowManager.LayoutParams.TYPE_SYSTEM_ALERT);
                 dg.show();
 
             }

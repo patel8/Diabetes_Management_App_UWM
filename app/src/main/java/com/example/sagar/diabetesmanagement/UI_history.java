@@ -26,13 +26,13 @@ public class UI_history extends AppCompatActivity {
 //        layoutdate = (LinearLayout) findViewById(R.id.datelayout);
 //        layoutLabel = (LinearLayout) findViewById(R.id.labelLayout);
 //        layoutData = (LinearLayout) findViewById(R.id.dataLayout);
-
-        butDelet = (Button) findViewById(R.id.buttonDeleteRecord);
-        butEdit = (Button) findViewById(R.id.buttonEditRecord);
-        textDate = (TextView) findViewById(R.id.textViewDate);
-        textTime = (TextView) findViewById(R.id.textViewTime);
-        textlabel = (TextView)findViewById(R.id.textViewTableName);
-        textData = (TextView) findViewById(R.id.textViewDataDB);
+//
+//        butDelet = (Button) findViewById(R.id.buttonDeleteRecord);
+//        butEdit = (Button) findViewById(R.id.buttonEditRecord);
+//        textDate = (TextView) findViewById(R.id.textViewDate);
+//        textTime = (TextView) findViewById(R.id.textViewTime);
+//        textlabel = (TextView)findViewById(R.id.textViewTableName);
+//        textData = (TextView) findViewById(R.id.textViewDataDB);
 
     }
 

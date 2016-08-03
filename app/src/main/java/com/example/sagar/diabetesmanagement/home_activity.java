@@ -5,9 +5,11 @@ import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.menu.ActionMenuItemView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -15,11 +17,23 @@ import java.util.ArrayList;
 
 public class home_activity extends AppCompatActivity {
 
+        ImageButton historyButton;
+    DbHelper db;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
-        refreshAverageGlucoceValues();
+        historyButton = (ImageButton) findViewById(R.id.imageButtonHistory);
+
+        historyButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), history.class);
+                startActivity(intent);
+            }
+        });
+
 
     }
 
@@ -32,6 +46,14 @@ public class home_activity extends AppCompatActivity {
 
 
         return true;
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        db = new DbHelper(this);
+        refreshAverageGlucoceValues();
     }
 
     //This method will perform action when 'Add Activity button' is called.
@@ -58,9 +80,9 @@ public class home_activity extends AppCompatActivity {
                 }).setPositiveButton("OK", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
-                        //  Your code when user clicked on OK
-                        //  You can write the code  to save the selected item here
 
+
+                         // This Code will Add all checked Activities to ArrayList 'SelectedItems'. Then will send it to 'list_of_activity_to_add.java' and Start that Activity.
                         if(!seletedItems.isEmpty()) {
                             Intent intent = new Intent(getApplicationContext(), list_of_activity_to_add.class);
                             //This list will contain the selected Activities.
@@ -87,6 +109,7 @@ public class home_activity extends AppCompatActivity {
 
     public void refreshAverageGlucoceValues()
     {
+
         setDailyGlucoceText();
         setMonthlyGlucoceText();
         setWeeklyGlucoceText();
@@ -100,6 +123,8 @@ public class home_activity extends AppCompatActivity {
 
         TextView DailyTextView = (TextView) findViewById(R.id.txtDaily);
         //Set the Text for Daily Text View
+//        int DailyGlcoseLevel = db.getDailyGlucoseLevel();
+//        DailyTextView.setText(DailyGlcoseLevel);
 
 
 
@@ -112,7 +137,8 @@ public class home_activity extends AppCompatActivity {
 
         TextView DailyTextView = (TextView) findViewById(R.id.txtWeekly);
         //Set the Text for Weekly Text View
-
+//        int WeeklyGlcoseLevel = db.getWeeklyGlucoseLevel();
+//        DailyTextView.setText(WeeklyGlcoseLevel);
 
 
     }
@@ -124,11 +150,22 @@ public class home_activity extends AppCompatActivity {
 
         TextView DailyTextView = (TextView) findViewById(R.id.txtMonthly);
         //Set the Text for Monthly Text View
-
+//        int MonthlyGlcoseLevel = db.getMonthlyGlucoseLevel();
+//        DailyTextView.setText(MonthlyGlcoseLevel);
 
 
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        db.close();
+    }
 
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        db.close();
+    }
 }

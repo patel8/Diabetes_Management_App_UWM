@@ -4,10 +4,13 @@
 
     <application
         android:allowBackup="true"
+
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
         <activity
             android:name=".home_activity"
             android:label="Home">
@@ -19,6 +22,7 @@
         </activity>
         <activity android:name=".all_activity_information" />
         <activity android:name=".list_of_activity_to_add"/>
+        <activity android:name=".history"></activity>
         <activity android:name=".custom_adapter"/>
     </application>
 
