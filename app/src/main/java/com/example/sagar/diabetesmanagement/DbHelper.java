@@ -195,5 +195,16 @@ public class DbHelper extends SQLiteOpenHelper {
         return result;
     }
 
+    public boolean deleteRowWithId(int id)
+    {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        int result = db.delete(tblHistory,colId + "=" +id, null );
+        if(result==0)
+                return false;
+        return true;
+    }
+
 
 }

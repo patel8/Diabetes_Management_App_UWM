@@ -49,7 +49,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
           addActivity = (Button) findViewById(R.id.buttonAddActivityThroughList);
           listView = (ListView) findViewById(R.id.listOfActivity);
           finalList = getIntent().getStringArrayListExtra("SelectedItem");
-          titleAdapter = new custom_adapter(getApplicationContext(), finalList);
+          titleAdapter = new custom_adapter(this);
           listView.setAdapter(titleAdapter);
 
     }
@@ -81,7 +81,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         if(!seletedItems.isEmpty()) {
                             finalList.addAll(seletedItems);
-                            ((BaseAdapter) titleAdapter).notifyDataSetChanged();
+                           ((BaseAdapter) titleAdapter).notifyDataSetChanged();
                         }
                         else
                         {
@@ -97,15 +97,21 @@ public class list_of_activity_to_add extends AppCompatActivity {
         dialog.show();
     }
 
+    public void removeItemFromListView(int position)
+    {
+        finalList.remove(position);
+        ((BaseAdapter) titleAdapter).notifyDataSetChanged();
+
+    }
 
     private class custom_adapter extends ArrayAdapter<String> {
 
 
         DbHelper dbHelper;
 
-        public custom_adapter(Context c, ArrayList<String> list)
+        public custom_adapter(Context c)
         {
-            super(c, R.layout.inserting_information, list);
+            super(c, R.layout.inserting_information, finalList);
             dbHelper = new DbHelper(getContext());
 
         }
@@ -130,7 +136,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
                 infoHolder.startTime = (TextView) customView.findViewById(R.id.txtStartTime);
                 infoHolder.endTime = (TextView) customView.findViewById(R.id.txtEndTime);
                 infoHolder.TimeView = (TextView) customView.findViewById(R.id.timeView);
-
+                infoHolder.position = position;
                 infoHolder.label.setText(getItem(position));
 
                 if(!getItem(position).equals("Exercise"))
@@ -146,8 +152,11 @@ public class list_of_activity_to_add extends AppCompatActivity {
 
                         Activity_Information activity_information = infoHolder.getActivityInfomation();
                         boolean result = dbHelper.insert(activity_information);
-                        if(result)
-                            Toast.makeText(getContext(), " DATA HAS BEEN STORED SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
+                        if(result) {
+                            Toast.makeText(getContext(), " DATA HAS BEEN STORED SUCCESSFULLY!!", Toast.LENGTH_LONG).show();
+                          removeItemFromListView(infoHolder.position);
+
+                        }
                         else
                             Toast.makeText(getContext(), " SORRY!! DATA HAS BEEN NOT STORED SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
 

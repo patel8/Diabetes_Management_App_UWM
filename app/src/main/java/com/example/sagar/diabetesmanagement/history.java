@@ -1,8 +1,10 @@
 package com.example.sagar.diabetesmanagement;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -34,6 +36,7 @@ public class history extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.listViewHistory);
 
         OnListItemClickListner();
+        onLongListItemClickListner();
 
     }
 
@@ -84,6 +87,65 @@ public class history extends AppCompatActivity {
 
 
     }
+
+    private void onLongListItemClickListner()
+    {
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long id) {
+                // Ask user to delete the row. If user wants to delete, then delete from database and then populatelist again.
+
+
+               final int _id = (int) id;
+                String label="", Date="";
+                Cursor cursor = dbHelper.getRowWithID(_id);
+                while(cursor.moveToFirst()) {
+                    int idDB = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.colId)));
+                     label = cursor.getString(cursor.getColumnIndex(DbHelper.colLable));
+                    Date = cursor.getString(cursor.getColumnIndex(DbHelper.colDate));
+                   break;
+                }
+
+                cursor.close();
+
+                final AlertDialog deleteDialog = new AlertDialog.Builder(history.this)
+                        .setTitle("Activity "+ label + ", "+ Date)
+                        .setMessage("Do you want to delete "+ label+ "?")
+                        .setPositiveButton("Delete", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
+                                //Delete the Activity from DB
+
+                                if(dbHelper.deleteRowWithId(_id))
+                                {
+                                    Toast.makeText(history.this, "Activity has been deleted", Toast.LENGTH_SHORT);
+                                    populateListItem();
+                                }
+                                else
+                                {
+                                    Toast.makeText(history.this, "DID NOT DELETE", Toast.LENGTH_SHORT);
+
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener()
+                        {
+                            public void onClick(DialogInterface dialog, int whichButton)
+                            {
+                                // Do nothing
+                            }
+                        })
+                        .create();
+
+                deleteDialog.show();
+
+
+                return true;
+            }
+        });
+    }
+
 
     private void OnListItemClickListner() {
 
