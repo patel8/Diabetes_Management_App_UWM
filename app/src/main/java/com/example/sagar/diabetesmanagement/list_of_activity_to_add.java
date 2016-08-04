@@ -97,12 +97,12 @@ public class list_of_activity_to_add extends AppCompatActivity {
         dialog.show();
     }
 
-    public void removeItemFromListView(int position)
-    {
-        finalList.remove(position);
-        ((BaseAdapter) titleAdapter).notifyDataSetChanged();
-
-    }
+//    public void removeItemFromListView(int position)
+//    {
+//        finalList.remove(position);
+//        ((BaseAdapter) titleAdapter).notifyDataSetChanged();
+//
+//    }
 
     private class custom_adapter extends ArrayAdapter<String> {
 
@@ -154,7 +154,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
                         boolean result = dbHelper.insert(activity_information);
                         if(result) {
                             Toast.makeText(getContext(), " DATA HAS BEEN STORED SUCCESSFULLY!!", Toast.LENGTH_LONG).show();
-                          removeItemFromListView(infoHolder.position);
+
 
                         }
                         else

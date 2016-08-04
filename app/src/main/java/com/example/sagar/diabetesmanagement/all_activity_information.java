@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -25,7 +26,7 @@ public class all_activity_information extends AppCompatActivity {
     private TextView DateView;
     private TextView TimeView;
     private LinearLayout DurationLayOut;
-    private long _id;
+    private int _id;
     private Button saveButton;
     private EditText value;
     private TextView label;
@@ -65,13 +66,44 @@ public class all_activity_information extends AppCompatActivity {
             value.setText(intent.getStringExtra("Description").toString());
             apxCalory.setText(intent.getStringExtra("ApxCalorie").toString());
 
+        if(!label.getText().equals("Exercise"))
+        {
+            DurationLayOut.setVisibility(LinearLayout.GONE);
+        }
         setDate(DateView);
         setTime(startTime);
         setTime(endTime);
         setTime(TimeView);
 
+        deleteButtonActionListner();
+
     }
 
+
+    public void deleteButtonActionListner()
+    {
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                DbHelper db = new DbHelper(getApplicationContext());
+                if(db.deleteRowWithId(_id))
+                {
+                    db.close();
+                    Intent intent = new Intent(all_activity_information.this,history.class);
+                    Toast.makeText(all_activity_information.this, "Activity has been deleted!", Toast.LENGTH_SHORT).show();
+
+                    startActivity(intent);
+                }
+                else
+                {
+                    db.close();
+                    Toast.makeText(all_activity_information.this, "Something went wrong!! Data is not deleted", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+    }
 
    // This function will handle ON 'SAVE' Button event.
     public void onSaveButtonClick()

@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.Calendar;
 import java.util.Date;
 
 
@@ -175,10 +176,11 @@ public class DbHelper extends SQLiteOpenHelper {
 
     /**
      * getAllData(); rOrder By Date
-     * getInfoWithID(id);
-     * getWeeklyGlucoseLevel()  //AVERAGE IT
-     * getDailyGlucoseLevel()
-     * getMonthlyGlucoseLevel()
+     * getInfoWithID(id);       // Return Cursor
+     * getWeeklyGlucoseLevel()  //Return int
+     * getDailyGlucoseLevel()  // Return Int
+     * getMonthlyGlucoseLevel() // Return Int
+     * updateCurrentRowWithId(Activity_information, id); Return Boolean
      */
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
@@ -204,6 +206,36 @@ public class DbHelper extends SQLiteOpenHelper {
         if(result==0)
                 return false;
         return true;
+    }
+
+    public int getDailyGlucoseLevel()
+    {
+        Calendar calendar = Calendar.getInstance();
+        final int  year = calendar.get(Calendar.YEAR);
+        final int  month = calendar.get(Calendar.MONTH) + 1;
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String date = month+"/"+day+"/"+year;
+        int sum = 0;
+        int cnt = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from "+ tblHistory + " where ("+colDate+ " = '"+date+"' and "+ colLable +" = 'BGL')" ,null);
+        if(cursor != null){
+            if(cursor.moveToFirst()){
+                do {
+                    int val = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.colDescription)));
+                    sum = sum + val;
+                    cnt++;
+                }while(cursor.moveToNext());
+            }
+        }
+
+        if(cnt == 0)
+            return 0;
+        else {
+            return sum / cnt;
+        }
     }
 
 

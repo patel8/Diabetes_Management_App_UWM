@@ -35,6 +35,7 @@ public class home_activity extends AppCompatActivity {
         });
 
 
+
     }
 
     // This method will add main_menu.xml to this activity.
@@ -54,6 +55,8 @@ public class home_activity extends AppCompatActivity {
         super.onStart();
         db = new DbHelper(this);
         refreshAverageGlucoceValues();
+
+
     }
 
     //This method will perform action when 'Add Activity button' is called.
@@ -123,8 +126,8 @@ public class home_activity extends AppCompatActivity {
 
         TextView DailyTextView = (TextView) findViewById(R.id.txtDaily);
         //Set the Text for Daily Text View
-//        int DailyGlcoseLevel = db.getDailyGlucoseLevel();
-//        DailyTextView.setText(DailyGlcoseLevel);
+        int DailyGlcoseLevel = db.getDailyGlucoseLevel();
+        DailyTextView.setText(DailyGlcoseLevel+"");
 
 
 

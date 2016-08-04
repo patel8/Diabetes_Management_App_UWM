@@ -51,6 +51,13 @@ public class history extends AppCompatActivity {
     private void populateListItem() {
         Cursor DBRows= dbHelper.getAllData();
 
+        if(DBRows.getCount()==0)
+
+        {
+            Toast.makeText(this, "List is Empty", Toast.LENGTH_LONG).show();
+
+        }
+
 //        while(DBRows.moveToFirst()) {
 //            int idDB = DBRows.getInt(0);
 //            String label = DBRows.getString(1);
