@@ -16,6 +16,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -35,11 +36,15 @@ public class all_activity_information extends AppCompatActivity {
     private TextView endTime;
     private Button deleteButton;
     private Intent intent;
+    private ToggleButton fasting;
+    private TextView fastingLabel;
+    private TextView ApxCalorieLabel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inserting_information);
+
 
 
 
@@ -56,6 +61,9 @@ public class all_activity_information extends AppCompatActivity {
         DurationLayOut = (LinearLayout) findViewById(R.id.TimeContainer);
         deleteButton = (Button) findViewById(R.id.buttonDelete);
         deleteButton.setVisibility(View.VISIBLE);
+        fasting = (ToggleButton)findViewById(R.id.FastingToggleButton);
+        fastingLabel = (TextView) findViewById(R.id.labelFasting);
+        ApxCalorieLabel = (TextView) findViewById(R.id.txtApxCal);
 
             _id =  intent.getIntExtra("_id", 0);
             label.setText(intent.getStringExtra("Label").toString());
@@ -65,11 +73,24 @@ public class all_activity_information extends AppCompatActivity {
             endTime.setText(intent.getStringExtra("EndTime").toString());
             value.setText(intent.getStringExtra("Description").toString());
             apxCalory.setText(intent.getStringExtra("ApxCalorie").toString());
+            fasting.setChecked(intent.getBooleanExtra("Fasting", false));
+
 
         if(!label.getText().equals("Exercise"))
         {
             DurationLayOut.setVisibility(LinearLayout.GONE);
         }
+        if(label.getText().equals("BGL"))
+        {
+            fasting.setVisibility(View.VISIBLE);
+            fastingLabel.setVisibility(View.VISIBLE);
+            apxCalory.setVisibility(View.GONE);
+            ApxCalorieLabel.setVisibility(View.GONE);
+
+        }
+
+
+
         setDate(DateView);
         setTime(startTime);
         setTime(endTime);
@@ -135,8 +156,10 @@ public class all_activity_information extends AppCompatActivity {
 
     public void setDate(final TextView dateWidget)
     {
-       final int year=0, month=0, day=0;
-
+        Calendar calendar = Calendar.getInstance();
+        final int  year = calendar.get(Calendar.YEAR);
+        final int  month = calendar.get(Calendar.MONTH);
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
         dateWidget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,10 +179,9 @@ public class all_activity_information extends AppCompatActivity {
     public void setTime(final TextView timeWidget)
     {
 
-        final int hour = 0;
-        final int minute = 0;
-
-
+        Calendar c = Calendar.getInstance();
+        final int hour = c.get(Calendar.HOUR);
+        final int minute = c.get(Calendar.MINUTE);
         // THis is when they click on it.
 
         timeWidget.setOnClickListener(new View.OnClickListener() {
@@ -169,8 +191,7 @@ public class all_activity_information extends AppCompatActivity {
                 Dialog dg = new TimePickerDialog(getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hour, int minute) {
-
-                        timeWidget.setText(new StringBuilder().append(hour).append(":").append(minute));
+                        timeWidget.setText(hour%12 + ":" + minute + " " + ((hour>=12) ? "PM" : "AM"));
                     }
                 }, hour, minute, false);
                 dg.show();

@@ -7,6 +7,8 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 
+import android.graphics.Color;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -25,11 +27,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import android.widget.ToggleButton;
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+
+import javax.xml.datatype.Duration;
 
 public class list_of_activity_to_add extends AppCompatActivity {
 
@@ -136,13 +143,27 @@ public class list_of_activity_to_add extends AppCompatActivity {
                 infoHolder.startTime = (TextView) customView.findViewById(R.id.txtStartTime);
                 infoHolder.endTime = (TextView) customView.findViewById(R.id.txtEndTime);
                 infoHolder.TimeView = (TextView) customView.findViewById(R.id.timeView);
+                infoHolder.DurationLabel = (TextView) customView.findViewById(R.id.txtDuration);
                 infoHolder.position = position;
                 infoHolder.label.setText(getItem(position));
-
+                infoHolder.fastingToggleButton = (ToggleButton) customView.findViewById(R.id.FastingToggleButton);
+                infoHolder.fastingLabel = (TextView) customView.findViewById(R.id.labelFasting);
+                infoHolder.ApxCalorieLable = (TextView) customView.findViewById(R.id.txtApxCal);
                 if(!getItem(position).equals("Exercise"))
                 {
                     infoHolder.DuartionLayout.setVisibility(LinearLayout.GONE);
                 }
+
+                if(getItem(position).equals("BGL"))
+                {
+                    infoHolder.fastingToggleButton.setVisibility(View.VISIBLE);
+                    infoHolder.fastingLabel.setVisibility(View.VISIBLE);
+                    infoHolder.apxcalorie.setVisibility(View.GONE);
+                    infoHolder.ApxCalorieLable.setVisibility(View.GONE);
+
+                }
+
+
 
                 //Set On SAVE button Listener.
 
@@ -155,8 +176,12 @@ public class list_of_activity_to_add extends AppCompatActivity {
                         if(result) {
                             Toast.makeText(getContext(), " DATA HAS BEEN STORED SUCCESSFULLY!!", Toast.LENGTH_LONG).show();
 
+                            infoHolder.DisableEverything();
+                            infoHolder.saveButton.setBackgroundColor(Color.GRAY);
+
 
                         }
+
                         else
                             Toast.makeText(getContext(), " SORRY!! DATA HAS BEEN NOT STORED SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
 
@@ -195,6 +220,10 @@ public class list_of_activity_to_add extends AppCompatActivity {
             public TextView endTime;
             public EditText apxcalorie;
             public LinearLayout DuartionLayout;
+            public ToggleButton fastingToggleButton;
+            public TextView fastingLabel;
+            public TextView ApxCalorieLable;
+            public TextView DurationLabel;
 
             public Activity_Information getActivityInfomation()
             {
@@ -206,8 +235,27 @@ public class list_of_activity_to_add extends AppCompatActivity {
                 result.setDate(DateView.getText().toString());
                 result.setApxCalory(apxcalorie.getText().toString());
                 result.setTime(TimeView.getText().toString());
+                result.setFasting(fastingToggleButton.isChecked());
+
 
                 return result;
+            }
+            public void DisableEverything()
+            {
+
+                DurationLabel.setEnabled(false);
+                saveButton.setVisibility(View.GONE);
+                value.setEnabled(false);
+                label.setEnabled(false);
+                DateView.setEnabled(false);
+                TimeView.setEnabled(false);
+                startTime.setEnabled(false);
+                endTime.setEnabled(false);
+                apxcalorie.setEnabled(false);
+                DuartionLayout.setEnabled(false);
+                fastingToggleButton.setEnabled(false);
+                fastingLabel.setEnabled(false);
+                ApxCalorieLable.setEnabled(false);
             }
 
         }
@@ -218,7 +266,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
             final int  year = calendar.get(Calendar.YEAR);
             final int  month = calendar.get(Calendar.MONTH);
             final int day = calendar.get(Calendar.DAY_OF_MONTH);
-            dateWidget.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
+            dateWidget.setText(new StringBuilder().append(month+1).append("/").append(day).append("/").append(year));
 
 
             dateWidget.setOnClickListener(new View.OnClickListener() {
@@ -239,9 +287,10 @@ public class list_of_activity_to_add extends AppCompatActivity {
         public void setTime(final TextView timeWidget)
         {
 
-            final int hour = 0;
-            final int minute = 0;
-            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm");
+            Calendar c = Calendar.getInstance();
+            final int hour = c.get(Calendar.HOUR);
+            final int minute = c.get(Calendar.MINUTE);
+            SimpleDateFormat dateFormat = new SimpleDateFormat("hh:mm a");
             String hourMin = dateFormat.format(new Date());
             timeWidget.setText(hourMin);
 
@@ -253,7 +302,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
                     Dialog dg = new TimePickerDialog(list_of_activity_to_add.this, new TimePickerDialog.OnTimeSetListener() {
                         @Override
                         public void onTimeSet(TimePicker view, int hour, int minute) {
-                            timeWidget.setText(new StringBuilder().append(hour).append(":").append(minute));
+                            timeWidget.setText(hour%12 + ":" + minute + " " + ((hour>=12) ? "PM" : "AM"));
                         }
                     }, hour, minute, false);
                     dg.show();

@@ -174,6 +174,9 @@ public class DbHelper extends SQLiteOpenHelper {
         return false;
     }
 
+
+
+
     /**
      * getAllData(); rOrder By Date
      * getInfoWithID(id);       // Return Cursor
@@ -237,6 +240,37 @@ public class DbHelper extends SQLiteOpenHelper {
             return sum / cnt;
         }
     }
+
+    public int getWeeklyGlucoseLevel()
+    {
+        Calendar calendar = Calendar.getInstance();
+        final int  year = calendar.get(Calendar.YEAR);
+        final int  month = calendar.get(Calendar.MONTH) + 1;
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String date = month+"/"+day+"/"+year;
+        int sum = 0;
+        int cnt = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cursor = db.rawQuery("select * from "+ tblHistory + " where ("+colDate+ " = '"+date+"' and "+ colLable +" = 'BGL')" ,null);
+        if(cursor != null){
+            if(cursor.moveToFirst()){
+                do {
+                    int val = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.colDescription)));
+                    sum = sum + val;
+                    cnt++;
+                }while(cursor.moveToNext());
+            }
+        }
+
+        if(cnt == 0)
+            return 0;
+        else {
+            return sum / cnt;
+        }
+    }
+
 
 
 }

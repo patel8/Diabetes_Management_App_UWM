@@ -58,18 +58,6 @@ public class history extends AppCompatActivity {
 
         }
 
-//        while(DBRows.moveToFirst()) {
-//            int idDB = DBRows.getInt(0);
-//            String label = DBRows.getString(1);
-//            String Date = DBRows.getString(2);
-//            String Time = DBRows.getString(3);
-//            String StartTime = DBRows.getString(4);
-//            String EndTime = DBRows.getString(5);
-//            String Description = DBRows.getString(6);
-//            String ApxCalorie = DBRows.getString(7);
-//        }
-
-
         String[] fromFieldName = new String[]
                 {
 
@@ -160,7 +148,7 @@ public class history extends AppCompatActivity {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long id) {
 
-                    Toast.makeText(getApplicationContext(), " ID IS " + id, Toast.LENGTH_LONG).show();
+                 //   Toast.makeText(getApplicationContext(), " ID IS " + id, Toast.LENGTH_LONG).show();
 
                     Cursor cursor = dbHelper.getRowWithID((int)id);
                     Intent intent = new Intent(getApplicationContext(), all_activity_information.class);
@@ -175,6 +163,7 @@ public class history extends AppCompatActivity {
                         String EndTime = cursor.getString(cursor.getColumnIndex(DbHelper.colEndTime));;
                         String Description = cursor.getString(cursor.getColumnIndex(DbHelper.colDescription));;
                         String ApxCalorie = cursor.getString(cursor.getColumnIndex(DbHelper.colApxCalorie));;
+                        boolean fasting = true;
 
 
                         intent.putExtra("_id", idDB);
@@ -185,6 +174,7 @@ public class history extends AppCompatActivity {
                         intent.putExtra("EndTime", EndTime);
                         intent.putExtra("Description", Description);
                         intent.putExtra("ApxCalorie", ApxCalorie);
+                        intent.putExtra("Fasting", fasting);
 
                     break;
 

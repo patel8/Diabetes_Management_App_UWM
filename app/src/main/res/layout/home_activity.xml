@@ -18,37 +18,35 @@
         android:id="@+id/TopContainer">
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="#00000000"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="40dp"
             android:id="@+id/ImageButtonContainer">
 
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageButtonHistory"
                 android:src="@mipmap/history_icon"
-                android:layout_weight="1"
                 android:background="#00000000"
-                />
+                android:layout_weight="1" />
 
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageButtonGraph"
                 android:src="@mipmap/graph_icon"
-                android:layout_weight="1"
-                android:background="@color/White" />
+                android:background="@color/White"
+                android:layout_weight="1" />
 
             <ImageButton
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/imageButtonAlarm"
                 android:src="@mipmap/alarm_icon"
-                android:layout_weight="1"
-                android:background="#00000000"/>
+                android:background="#00000000"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -60,32 +58,37 @@
             android:id="@+id/ImageButtonTextContainer">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/label_history"
                 android:id="@+id/labelHistory"
-                android:layout_weight="1"
                 android:gravity="center"
-                />
+                android:textSize="18dp"
+                android:textColor="@color/Black"
+                android:layout_weight="1" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/label_graph"
                 android:id="@+id/labelGraph"
-                android:layout_weight="1"
-                android:gravity="center" />
+                android:gravity="center"
+                android:textSize="18dp"
+                android:textColor="@color/Black"
+                android:layout_weight="1" />
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceMedium"
                 android:text="@string/label_alarm"
                 android:id="@+id/labelAlarm"
-                android:layout_weight="1"
-                android:gravity="center" />
+                android:textSize="18dp"
+                android:textColor="@color/Black"
+                android:gravity="center"
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -94,7 +97,7 @@
             android:layout_height="wrap_content"
             android:background="#00000000"
             android:gravity="center"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="30dp"
             android:layout_gravity="center"
             android:id="@+id/AddActivityButtonContainer">
 
@@ -103,9 +106,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/button_add_activity"
                 android:id="@+id/buttonAddActivity"
-                android:padding="20dp"
-                android:background="@color/add_activity_button_color"
+                android:background="@android:color/holo_red_light"
                 android:textColor="@color/White"
+                android:textStyle="bold"
                 android:textSize="20dp"
                 android:gravity="center"
                 android:layout_margin="10dp"

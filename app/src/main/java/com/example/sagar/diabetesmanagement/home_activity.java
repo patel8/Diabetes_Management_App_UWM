@@ -126,8 +126,8 @@ public class home_activity extends AppCompatActivity {
 
         TextView DailyTextView = (TextView) findViewById(R.id.txtDaily);
         //Set the Text for Daily Text View
-        int DailyGlcoseLevel = db.getDailyGlucoseLevel();
-        DailyTextView.setText(DailyGlcoseLevel+"");
+//        int DailyGlcoseLevel = db.getDailyGlucoseLevel();
+//        DailyTextView.setText(DailyGlcoseLevel+"");
 
 
 
@@ -140,7 +140,7 @@ public class home_activity extends AppCompatActivity {
 
         TextView DailyTextView = (TextView) findViewById(R.id.txtWeekly);
         //Set the Text for Weekly Text View
-//        int WeeklyGlcoseLevel = db.getWeeklyGlucoseLevel();
+      //  int WeeklyGlcoseLevel = db.getWeeklyGlucoseLevel();
 //        DailyTextView.setText(WeeklyGlcoseLevel);
 
 
@@ -153,8 +153,8 @@ public class home_activity extends AppCompatActivity {
 
         TextView DailyTextView = (TextView) findViewById(R.id.txtMonthly);
         //Set the Text for Monthly Text View
-//        int MonthlyGlcoseLevel = db.getMonthlyGlucoseLevel();
-//        DailyTextView.setText(MonthlyGlcoseLevel);
+      //  int MonthlyGlcoseLevel = db.getMonthlyGlucoseLevel();
+       // DailyTextView.setText(MonthlyGlcoseLevel);
 
 
     }

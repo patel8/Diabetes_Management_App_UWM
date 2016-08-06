@@ -15,6 +15,7 @@ public class Activity_Information implements Serializable {
     private String startTime;
     private String endTime;
     private String apxCalory;
+    private boolean fasting;
     private long id;
 
     public Activity_Information()
@@ -95,5 +96,15 @@ public class Activity_Information implements Serializable {
     public long getId()
     {
         return id;
+    }
+
+    public boolean fasting()
+    {
+        return this.fasting;
+    }
+
+    public void setFasting(boolean fasting)
+    {
+        this.fasting = fasting;
     }
 }

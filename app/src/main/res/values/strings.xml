@@ -11,4 +11,7 @@
     <string name="label_graph">Graph</string>
     <string name="label_alarm">Alarm</string>
     <string name="button_add_activity">+ ADD ACTIVITY</string>
+    <string name="duration">Duration</string>
+    <string name="calories">Calories</string>
+    <string name="saveButton">Save</string>
 </resources>
