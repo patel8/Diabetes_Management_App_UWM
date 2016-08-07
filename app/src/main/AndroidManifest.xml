@@ -20,10 +20,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".all_activity_information" />
-        <activity android:name=".list_of_activity_to_add"/>
-        <activity android:name=".history"></activity>
-        <activity android:name=".custom_adapter"/>
+        <activity android:name=".all_activity_information"
+            android:label="@string/EditActivity"/>
+        <activity android:name=".list_of_activity_to_add"
+            android:label="@string/AddActivity"/>
+        <activity android:name=".history"
+            android:label="@string/historyActivity"></activity>
+
     </application>
 
 </manifest>

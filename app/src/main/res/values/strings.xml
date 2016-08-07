@@ -14,4 +14,8 @@
     <string name="duration">Duration</string>
     <string name="calories">Calories</string>
     <string name="saveButton">Save</string>
+    <string name="historyActivity">History</string>
+    <string name="EditActivity">Edit Activity</string>
+    <string name="AddActivity">Add Activity</string>
+    <string name="HomeActivity">Home</string>
 </resources>
