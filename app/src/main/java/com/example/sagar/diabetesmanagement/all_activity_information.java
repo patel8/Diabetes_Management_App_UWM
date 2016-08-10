@@ -73,7 +73,12 @@ public class all_activity_information extends AppCompatActivity {
             endTime.setText(intent.getStringExtra("EndTime").toString());
             value.setText(intent.getStringExtra("Description").toString());
             apxCalory.setText(intent.getStringExtra("ApxCalorie").toString());
-            fasting.setChecked(intent.getBooleanExtra("Fasting", false));
+           int fastingEnabled = intent.getIntExtra("Fasting", 0);
+
+        if(fastingEnabled == 1)
+            fasting.setChecked(true);
+        else
+             fasting.setChecked(false);
 
 
         if(!label.getText().equals("Exercise"))
@@ -97,6 +102,7 @@ public class all_activity_information extends AppCompatActivity {
         setTime(TimeView);
 
         deleteButtonActionListner();
+        onSaveButtonClick();
 
     }
 
@@ -133,6 +139,7 @@ public class all_activity_information extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                DbHelper dbHelper = new DbHelper(getApplicationContext());
 
                 Activity_Information activity = new Activity_Information();
 
@@ -143,10 +150,15 @@ public class all_activity_information extends AppCompatActivity {
                 activity.setStartTime(startTime.getText().toString());
                 activity.setEndTime(endTime.getText().toString());
                 activity.setApxCalory(apxCalory.getText().toString());
+                activity.setFasting(fasting.isChecked());
                 activity.setId(_id);
                 //Send this object to Database to get added.
 
-            //    dbhelper.updateCurrentRowWithId(activity);
+                if (dbHelper.updateCurrentRowWithId(activity)) {
+
+                    Toast.makeText(getApplicationContext(), " DATA HAS BEEN UPDATED SUCCESSFULLY!!", Toast.LENGTH_LONG).show();
+                } else
+                    Toast.makeText(getApplicationContext(), "DATABASE NOT FULLY FUNCTIONAL, THIS WILL BE COMPLETED FOR HW 5", Toast.LENGTH_LONG).show();
 
             }
         });
@@ -188,7 +200,7 @@ public class all_activity_information extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                Dialog dg = new TimePickerDialog(getApplicationContext(), new TimePickerDialog.OnTimeSetListener() {
+                Dialog dg = new TimePickerDialog(all_activity_information.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker view, int hour, int minute) {
                         timeWidget.setText(hour%12 + ":" + minute + " " + ((hour>=12) ? "PM" : "AM"));

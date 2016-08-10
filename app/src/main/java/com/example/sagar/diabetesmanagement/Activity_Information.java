@@ -107,4 +107,8 @@ public class Activity_Information implements Serializable {
     {
         this.fasting = fasting;
     }
+    public boolean getFasting()
+    {
+        return this.fasting;
+    }
 }

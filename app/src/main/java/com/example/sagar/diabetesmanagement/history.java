@@ -163,7 +163,7 @@ public class history extends AppCompatActivity {
                         String EndTime = cursor.getString(cursor.getColumnIndex(DbHelper.colEndTime));;
                         String Description = cursor.getString(cursor.getColumnIndex(DbHelper.colDescription));;
                         String ApxCalorie = cursor.getString(cursor.getColumnIndex(DbHelper.colApxCalorie));;
-                        boolean fasting = true;
+                        int fasting = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.colFasting)));
 
 
                         intent.putExtra("_id", idDB);
@@ -187,6 +187,15 @@ public class history extends AppCompatActivity {
 
                 }
             });
+
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        startActivity(new Intent(this, home_activity.class));
+        finish();
 
     }
 

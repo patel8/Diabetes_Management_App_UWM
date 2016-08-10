@@ -13,7 +13,7 @@
 
         <activity
             android:name=".home_activity"
-            android:label="Home">
+            android:label="Diabetes Management">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

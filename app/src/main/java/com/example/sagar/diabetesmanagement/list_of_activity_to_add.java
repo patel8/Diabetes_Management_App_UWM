@@ -172,12 +172,15 @@ public class list_of_activity_to_add extends AppCompatActivity {
                     public void onClick(View view) {
 
                         Activity_Information activity_information = infoHolder.getActivityInfomation();
+
                         boolean result = dbHelper.insert(activity_information);
+
+//                        boolean result1 = dbHelper.insert_fireBase(activity_information);
                         if(result) {
                             Toast.makeText(getContext(), " DATA HAS BEEN STORED SUCCESSFULLY!!", Toast.LENGTH_LONG).show();
 
                             infoHolder.DisableEverything();
-                            infoHolder.saveButton.setBackgroundColor(Color.GRAY);
+
 
 
                         }

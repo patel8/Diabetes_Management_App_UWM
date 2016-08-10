@@ -70,12 +70,12 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String colEndTime = "endtime";
     public static final String colDescription = "description";
     public static final String colApxCalorie = "apxcalorie";
-
+    public static final String colFasting = "fasting";
 
 
 
     public DbHelper(Context context) {
-        super(context, DBNAME, null, 2);
+        super(context, DBNAME, null, 3);
     }
     // this method could be created automatically otherwise, I have to create them: onCreate (), onUpgrade
     @Override
@@ -87,7 +87,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "+ TBLEXERCISE +"("+EXERCISEID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + STARTTIME + " DATETIME, " + ENDTIME + " DATETIME, " + DESCRIPTION + " TEXT)");
         db.execSQL("CREATE TABLE "+ TBLMEDICATION +"("+MEDICATIONID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + AMOUNT + " INTEGER, " + COMMENTS + " TEXT, " + TIMESTAMP + " DATETIME)");
         db.execSQL("CREATE TABLE "+ TBLPERSCRIBEDREGIMEN +"("+PRESCRIBEDREGIMENID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + STARTTIME + " DATETIME, " + ENDTIME + " DATETIME, " + DIET + " TEXT, " + EXERCISE + " TEXT, " + MEDICATION + " TEXT, " + DESIREDBGL + " INTEGER)");
-        db.execSQL("CREATE TABLE "+ tblHistory +" ("+colId+" INTEGER PRIMARY KEY AUTOINCREMENT, " + colLable + " TEXT, " + colDate + " Date, " + colTime + " Time, " + colStartTime + " Time, " + colEndTime + " Time, " + colDescription + " Text, " + colApxCalorie +" Text)");
+        db.execSQL("CREATE TABLE "+ tblHistory +" ("+colId+" INTEGER PRIMARY KEY AUTOINCREMENT, " + colLable + " TEXT, " + colDate + " Date, " + colTime + " Time, " + colStartTime + " Time, " + colEndTime + " Time, " + colDescription + " Text, " + colApxCalorie +" Text, " + colFasting + " INTEGER)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
@@ -96,7 +96,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS "+ TBLEXERCISE);
         db.execSQL("DROP TABLE IF EXISTS "+ TBLMEDICATION);
         db.execSQL("DROP TABLE IF EXISTS "+ TBLPERSCRIBEDREGIMEN);
-        db.execSQL("DROP TABLE IF EXISTS" + tblHistory);
+        db.execSQL("DROP TABLE IF EXISTS " + tblHistory);
         onCreate(db);
 
     }
@@ -113,8 +113,30 @@ public class DbHelper extends SQLiteOpenHelper {
         cValues.put(colDescription, info.getValue());
         cValues.put(colStartTime, info.getStartTime());
         cValues.put(colLable, info.getLabel());
+        cValues.put(colFasting, info.getFasting());
 
         long res = db.insert(tblHistory, null, cValues);
+        if (res == -1) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    //Update everything in that ID info.id
+    public boolean updateCurrentRowWithId(Activity_Information info){
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues cV = new ContentValues();
+
+        cV.put(colDate,info.getDate());
+        cV.put(colTime,info.getTime());
+        cV.put(colStartTime,info.getStartTime());
+        cV.put(colEndTime,info.getEndTime());
+        cV.put(colDescription,info.getValue());
+        cV.put(colApxCalorie,info.getApxCalory());
+        cV.put(colFasting,info.getFasting());
+
+        long res = db.update(tblHistory,cV, colId+" = "+info.getId() ,null);
         if (res == -1) {
             return false;
         } else {
