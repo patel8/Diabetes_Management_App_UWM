@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListAdapter;
@@ -38,10 +40,8 @@ public class history extends AppCompatActivity {
         OnListItemClickListner();
         onLongListItemClickListner();
 
+
     }
-
-
-
     @Override
     protected void onStart() {
         super.onStart();

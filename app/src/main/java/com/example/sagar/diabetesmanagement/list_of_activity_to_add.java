@@ -156,11 +156,17 @@ public class list_of_activity_to_add extends AppCompatActivity {
 
                 if(getItem(position).equals("BGL"))
                 {
+                    infoHolder.value.setHint("BGL Value");
                     infoHolder.fastingToggleButton.setVisibility(View.VISIBLE);
                     infoHolder.fastingLabel.setVisibility(View.VISIBLE);
                     infoHolder.apxcalorie.setVisibility(View.GONE);
                     infoHolder.ApxCalorieLable.setVisibility(View.GONE);
 
+                }
+
+                if(getItem(position).equals("Medicine"))
+                {
+                    infoHolder.ApxCalorieLable.setText("Amount(mg)");
                 }
 
 
@@ -171,7 +177,9 @@ public class list_of_activity_to_add extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
 
+
                         Activity_Information activity_information = infoHolder.getActivityInfomation();
+
 
                         boolean result = dbHelper.insert(activity_information);
 

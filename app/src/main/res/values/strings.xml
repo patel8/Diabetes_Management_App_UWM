@@ -18,4 +18,9 @@
     <string name="EditActivity">Edit Activity</string>
     <string name="AddActivity">Add Activity</string>
     <string name="HomeActivity">Home</string>
+    <string name= "Amount">Amount(mg)</string>
+    <string name="labelExercise">Exercise</string>
+    <string name= "labelMedicine">Medicine</string>
+    <string name = "labelFood">Food</string>
+    <string name= "lableBGL">BGL</string>
 </resources>

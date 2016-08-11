@@ -293,6 +293,12 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
+    public Cursor getAllBGLwithTimeStamp()
+    {
+        String query = "Select * from "+ tblHistory + " where " + colLable + " = 'BGL'";
+        return this.getWritableDatabase().rawQuery(query, null);
+    }
+
 
 
 }

@@ -24,7 +24,11 @@
             android:label="@string/EditActivity"/>
         <activity android:name=".list_of_activity_to_add"
             android:label="@string/AddActivity"/>
+        <activity android:name=".graph_activity"
+            android:label="@string/AddActivity"/>
+
         <activity android:name=".history"
+
             android:label="@string/historyActivity"></activity>
 
     </application>

@@ -18,6 +18,7 @@ import java.util.ArrayList;
 public class home_activity extends AppCompatActivity {
 
         ImageButton historyButton;
+    ImageButton graphButton;
     DbHelper db;
 
     @Override
@@ -25,11 +26,20 @@ public class home_activity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
         historyButton = (ImageButton) findViewById(R.id.imageButtonHistory);
+        graphButton = (ImageButton) findViewById(R.id.imageButtonGraph);
 
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), history.class);
+                startActivity(intent);
+            }
+        });
+
+        graphButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), graph_activity.class);
                 startActivity(intent);
             }
         });
@@ -58,6 +68,8 @@ public class home_activity extends AppCompatActivity {
 
 
     }
+
+
 
     //This method will perform action when 'Add Activity button' is called.
 

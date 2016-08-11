@@ -93,6 +93,11 @@ public class all_activity_information extends AppCompatActivity {
             ApxCalorieLabel.setVisibility(View.GONE);
 
         }
+        if(label.getText().equals("Medicine"))
+        {
+            ApxCalorieLabel.setText(R.string.Amount);
+        }
+
 
 
 
@@ -139,6 +144,9 @@ public class all_activity_information extends AppCompatActivity {
         saveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+
+
                 DbHelper dbHelper = new DbHelper(getApplicationContext());
 
                 Activity_Information activity = new Activity_Information();
