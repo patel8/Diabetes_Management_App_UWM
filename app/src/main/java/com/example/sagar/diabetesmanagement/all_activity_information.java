@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -87,6 +88,7 @@ public class all_activity_information extends AppCompatActivity {
         }
         if(label.getText().equals("BGL"))
         {
+            value.setInputType(InputType.TYPE_CLASS_NUMBER);
             fasting.setVisibility(View.VISIBLE);
             fastingLabel.setVisibility(View.VISIBLE);
             apxCalory.setVisibility(View.GONE);
@@ -187,7 +189,7 @@ public class all_activity_information extends AppCompatActivity {
                 Dialog dg = new DatePickerDialog(all_activity_information.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateWidget.setText(new StringBuilder().append(month).append("/").append(day).append("/").append(year));
+                        dateWidget.setText(new StringBuilder().append(month+1).append("/").append(day).append("/").append(year));
                     }
                 }, year, month, day);
 

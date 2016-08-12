@@ -12,6 +12,7 @@ import android.support.annotation.DrawableRes;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -156,6 +157,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
 
                 if(getItem(position).equals("BGL"))
                 {
+                    infoHolder.value.setInputType(InputType.TYPE_CLASS_NUMBER);
                     infoHolder.value.setHint("BGL Value");
                     infoHolder.fastingToggleButton.setVisibility(View.VISIBLE);
                     infoHolder.fastingLabel.setVisibility(View.VISIBLE);

@@ -229,7 +229,7 @@ public class DbHelper extends SQLiteOpenHelper {
 
         int result = db.delete(tblHistory,colId + "=" +id, null );
         if(result==0)
-                return false;
+            return false;
         return true;
     }
 
@@ -270,12 +270,56 @@ public class DbHelper extends SQLiteOpenHelper {
         final int  month = calendar.get(Calendar.MONTH) + 1;
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
+        Calendar cal2 = Calendar.getInstance();
+        cal2.add(Calendar.DAY_OF_MONTH,-7);
+        final int year2 = cal2.get(Calendar.YEAR);
+        final int month2 = cal2.get(Calendar.MONTH) +1;
+        final int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+
         String date = month+"/"+day+"/"+year;
+        String date2 = month2+"/"+day2+"/"+year2;
         int sum = 0;
         int cnt = 0;
         SQLiteDatabase db = this.getWritableDatabase();
+        String testDate = "8/4/2016";
+        Cursor cursor = db.rawQuery("select * from "+ tblHistory + " where ("+colDate+ " between '"+testDate+"' and '"+date+"') and ("+ colLable +" = 'BGL')" ,null);
+        if(cursor != null){
+            if(cursor.moveToFirst()){
+                do {
+                    int val = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.colDescription)));
+                    sum = sum + val;
+                    cnt++;
+                }while(cursor.moveToNext());
+            }
+        }
 
-        Cursor cursor = db.rawQuery("select * from "+ tblHistory + " where ("+colDate+ " = '"+date+"' and "+ colLable +" = 'BGL')" ,null);
+        if(cnt == 0)
+            return 0;
+        else {
+            return sum / cnt;
+        }
+    }
+
+    public int getMonthlyGlucoseLevel()
+    {
+        Calendar calendar = Calendar.getInstance();
+        final int  year = calendar.get(Calendar.YEAR);
+        final int  month = calendar.get(Calendar.MONTH) + 1;
+        final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        Calendar cal2 = Calendar.getInstance();
+        // cal2.add(Calendar.DAY_OF_MONTH,-30);
+        final int year2 = cal2.get(Calendar.YEAR);
+        final int month2 = cal2.get(Calendar.MONTH) ;
+        final int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+
+        String date = month+"/"+day+"/"+year;
+        String date2 = month2+"/"+day2+"/"+year2;
+        int sum = 0;
+        int cnt = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+        //String testDate = "8/4/2016";
+        Cursor cursor = db.rawQuery("select * from "+ tblHistory + " where ("+colDate+ " between '"+date2+"' and '"+date+"') and ("+ colLable +" = 'BGL')" ,null);
         if(cursor != null){
             if(cursor.moveToFirst()){
                 do {
