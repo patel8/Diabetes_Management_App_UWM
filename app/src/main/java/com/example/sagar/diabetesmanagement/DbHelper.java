@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -108,6 +109,9 @@ public class DbHelper extends SQLiteOpenHelper {
         //cValues.put(colId, info.getId());
         cValues.put(colTime, info.getTime());
         cValues.put(colApxCalorie, info.getApxCalory());
+
+
+
         cValues.put(colDate, info.getDate());
         cValues.put(colEndTime, info.getEndTime());
         cValues.put(colDescription, info.getValue());
@@ -240,7 +244,8 @@ public class DbHelper extends SQLiteOpenHelper {
         final int  month = calendar.get(Calendar.MONTH) + 1;
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        String date = month+"/"+day+"/"+year;
+        String date = year+"-"+month+"-"+day;
+
         int sum = 0;
         int cnt = 0;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -276,13 +281,15 @@ public class DbHelper extends SQLiteOpenHelper {
         final int month2 = cal2.get(Calendar.MONTH) +1;
         final int day2 = cal2.get(Calendar.DAY_OF_MONTH);
 
-        String date = month+"/"+day+"/"+year;
-        String date2 = month2+"/"+day2+"/"+year2;
+        String date = year+"-"+month+"-"+day;
+        String date2 = year2+"-"+month2+"-"+day2;
         int sum = 0;
         int cnt = 0;
         SQLiteDatabase db = this.getWritableDatabase();
-        String testDate = "8/4/2016";
-        Cursor cursor = db.rawQuery("select * from "+ tblHistory + " where ("+colDate+ " between '"+testDate+"' and '"+date+"') and ("+ colLable +" = 'BGL')" ,null);
+
+        String query = "select * from "+ tblHistory + " where ("+colDate+ " between '"+date2+"' and '"+date+"') and ("+ colLable +" = 'BGL')";
+        //"select * from "+ tblHistory + " where ("+colDate+ " between '"+date2+"' and '"+date+"') and ("+ colLable +" = 'BGL')"
+        Cursor cursor = db.rawQuery(query ,null);
         if(cursor != null){
             if(cursor.moveToFirst()){
                 do {
@@ -308,13 +315,13 @@ public class DbHelper extends SQLiteOpenHelper {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         Calendar cal2 = Calendar.getInstance();
-        // cal2.add(Calendar.DAY_OF_MONTH,-30);
+         cal2.add(Calendar.MONTH,-1);
         final int year2 = cal2.get(Calendar.YEAR);
-        final int month2 = cal2.get(Calendar.MONTH) ;
+        final int month2 = cal2.get(Calendar.MONTH) + 1 ;
         final int day2 = cal2.get(Calendar.DAY_OF_MONTH);
 
-        String date = month+"/"+day+"/"+year;
-        String date2 = month2+"/"+day2+"/"+year2;
+        String date = year+"-"+month+"-"+day;
+        String date2 = year2+"-"+month2+"-"+day2;
         int sum = 0;
         int cnt = 0;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -343,6 +350,17 @@ public class DbHelper extends SQLiteOpenHelper {
         return this.getWritableDatabase().rawQuery(query, null);
     }
 
+    public ArrayList<Activity_Information> getInfoWithFilterdQuery(filterQuery query) {
+        Cursor cursor = getWritableDatabase().rawQuery(query.Query(), null);
+        return cursorToArrayList(cursor);
+    }
+
+    private ArrayList<Activity_Information> cursorToArrayList(Cursor cursor) {
+        ArrayList<Activity_Information> result = new ArrayList<>();
+
+
+        return result;
+    }
 
 
 }

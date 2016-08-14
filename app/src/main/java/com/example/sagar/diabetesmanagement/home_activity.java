@@ -19,6 +19,7 @@ public class home_activity extends AppCompatActivity {
 
         ImageButton historyButton;
     ImageButton graphButton;
+    ImageButton AlarmButton;
     DbHelper db;
 
     @Override
@@ -27,22 +28,35 @@ public class home_activity extends AppCompatActivity {
         setContentView(R.layout.home_activity);
         historyButton = (ImageButton) findViewById(R.id.imageButtonHistory);
         graphButton = (ImageButton) findViewById(R.id.imageButtonGraph);
+        AlarmButton = (ImageButton) findViewById(R.id.imageButtonAlarm);
 
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), history.class);
+                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
+                intent.putExtra("ActivityInfo", "History");
                 startActivity(intent);
             }
         });
 
-        graphButton.setOnClickListener(new View.OnClickListener() {
+//        graphButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(getApplicationContext(), graph_activity.class);
+//                startActivity(intent);
+//            }
+//        });
+
+        AlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), graph_activity.class);
+                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
+                intent.putExtra("History", "GraphFood");
                 startActivity(intent);
             }
         });
+
+
 
 
 
@@ -69,7 +83,32 @@ public class home_activity extends AppCompatActivity {
 
     }
 
+public void onButtonGraphIcon(View view)
+{
+    final CharSequence[] items = {"Food Graph","BGL Graph","Exercise Graph", "Medicine Graph"};
+// arraylist to keep the selected items
 
+
+    AlertDialog dialog = new AlertDialog.Builder(this)
+            .setTitle("Select an Activity")
+            .setSingleChoiceItems(items, 0, null)
+            .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+                    Intent intent = new Intent(home_activity.this, FilterActivity.class);
+                    intent.putExtra("ActivityInfo", items[selectedPosition]);
+                    startActivity(intent);
+                }
+            }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int id) {
+                    //  Your code when user clicked on Cancel
+                }
+            }).create();
+    dialog.show();
+
+}
 
     //This method will perform action when 'Add Activity button' is called.
 
@@ -138,8 +177,8 @@ public class home_activity extends AppCompatActivity {
 
         TextView DailyTextView = (TextView) findViewById(R.id.txtDaily);
         //Set the Text for Daily Text View
-//        int DailyGlcoseLevel = db.getDailyGlucoseLevel();
-//        DailyTextView.setText(DailyGlcoseLevel+"");
+        int DailyGlcoseLevel = db.getDailyGlucoseLevel();
+        DailyTextView.setText(DailyGlcoseLevel+"");
 
 
 
@@ -150,25 +189,21 @@ public class home_activity extends AppCompatActivity {
 
         //Perform Database Operations in orderto get Daily Glucoze
 
-        TextView DailyTextView = (TextView) findViewById(R.id.txtWeekly);
+        TextView WeeklyTextView = (TextView) findViewById(R.id.txtWeekly);
         //Set the Text for Weekly Text View
-      //  int WeeklyGlcoseLevel = db.getWeeklyGlucoseLevel();
-//        DailyTextView.setText(WeeklyGlcoseLevel);
+        int WeeklyGlcoseLevel = db.getWeeklyGlucoseLevel();
+        WeeklyTextView.setText(WeeklyGlcoseLevel+"");
 
 
     }
 
     private void setMonthlyGlucoceText()
     {
-
         //Perform Database Operations in orderto get Daily Glucoze
-
-        TextView DailyTextView = (TextView) findViewById(R.id.txtMonthly);
+        TextView MonthlyTextView = (TextView) findViewById(R.id.txtMonthly);
         //Set the Text for Monthly Text View
-      //  int MonthlyGlcoseLevel = db.getMonthlyGlucoseLevel();
-       // DailyTextView.setText(MonthlyGlcoseLevel);
-
-
+        int MonthlyGlcoseLevel = db.getMonthlyGlucoseLevel();
+        MonthlyTextView.setText(MonthlyGlcoseLevel+"");
     }
 
     @Override

@@ -189,7 +189,7 @@ public class all_activity_information extends AppCompatActivity {
                 Dialog dg = new DatePickerDialog(all_activity_information.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateWidget.setText(new StringBuilder().append(month+1).append("/").append(day).append("/").append(year));
+                        dateWidget.setText(new StringBuilder().append(year).append("-").append(month+1).append("-").append(day));
                     }
                 }, year, month, day);
 

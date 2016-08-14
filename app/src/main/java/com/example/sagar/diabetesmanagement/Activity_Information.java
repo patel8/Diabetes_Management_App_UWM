@@ -38,6 +38,7 @@ public class Activity_Information implements Serializable {
     }
 
     public void setDate(String date) {
+
         this.date = date;
     }
 
@@ -111,4 +112,5 @@ public class Activity_Information implements Serializable {
     {
         return this.fasting;
     }
+
 }

@@ -38,7 +38,8 @@
                 android:id="@+id/imageButtonGraph"
                 android:src="@mipmap/graph_icon"
                 android:background="@color/White"
-                android:layout_weight="1" />
+                android:layout_weight="1"
+                android:onClick="onButtonGraphIcon" />
 
             <ImageButton
                 android:layout_width="0dp"
