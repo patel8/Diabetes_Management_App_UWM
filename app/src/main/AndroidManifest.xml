@@ -31,7 +31,10 @@
         <activity
             android:name=".history"
             android:label="@string/historyActivity" />
-        <activity android:name=".FilterActivity"></activity>
+        <activity android:name=".FilterActivity" />
+        <activity android:name=".food_graph_activity" />
+        <activity android:name=".exercise_graph_activity" />
+        <activity android:name=".medicine_graph_activity"></activity>
     </application>
 
 </manifest>

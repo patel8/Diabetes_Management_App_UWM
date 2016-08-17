@@ -13,9 +13,11 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Filter;
@@ -92,9 +94,20 @@ public class FilterActivity extends AppCompatActivity {
                 filterquery.setMinBGL(txtFrommMinimum.getText().toString());
                 filterquery.setMaxBGL(txtToMaximum.getText().toString());
 
+                Intent intent;
                 switch (ActivityName) {
                     case "BGL Graph":
-                        Intent intent = new Intent(FilterActivity.this, graph_activity.class);
+                        if(!chkBoxBGL.isChecked())
+                        {
+                            Toast.makeText(FilterActivity.this, "Please select the Activity", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        if(txtFrommMinimum.getText().toString().equals("") || txtToMaximum.getText().toString().equals(""))
+                        {
+                            Toast.makeText(FilterActivity.this, "Please correct Min and Max values", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                       intent = new Intent(FilterActivity.this, graph_activity.class);
                         //intent = new Intent(FilterActivity.this, graph_activity.class);
                         intent.putExtra("Query", filterquery.Query());
                         startActivity(intent);
@@ -103,13 +116,39 @@ public class FilterActivity extends AppCompatActivity {
 
                     case "Food Graph":
 
+                        if(!chkBoxFood.isChecked())
+                        {
+                            Toast.makeText(FilterActivity.this, "Please select the Activity", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        intent = new Intent(FilterActivity.this, food_graph_activity.class);
+                        intent.putExtra("Query", filterquery.Query());
+                        startActivity(intent);
 
                         break;
                     case "Exercise Graph":
 
+                        if(!chkBoxExercise.isChecked())
+                        {
+                            Toast.makeText(FilterActivity.this, "Please select the Activity", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                        intent = new Intent(FilterActivity.this, exercise_graph_activity.class);
+                        intent.putExtra("Query", filterquery.Query());
+                        startActivity(intent);
+
 
                         break;
                     case "Medicine Graph":
+                        if(!chkBoxMedicine.isChecked())
+                        {
+                            Toast.makeText(FilterActivity.this, "Please select the Activity", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+                        intent = new Intent(FilterActivity.this, medicine_graph_activity.class);
+                        intent.putExtra("Query", filterquery.Query());
+                        startActivity(intent);
 
 
                         break;
@@ -127,17 +166,10 @@ public class FilterActivity extends AppCompatActivity {
         final int  month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        String NewDay = day+"";
-        String NewMonth = (month)+"";
-        if(month < 10){
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date = formatter.format(calendar.getTime());
 
-            NewMonth = "0" + month;
-        }
-        if(day < 10){
-
-            NewDay  = "0" + day ;
-        }
-        dateWidget.setText(new StringBuilder().append(year).append("-").append(NewMonth).append("-").append(NewDay));
+        dateWidget.setText(date);
 
         dateWidget.setOnClickListener(new View.OnClickListener() {
             @Override

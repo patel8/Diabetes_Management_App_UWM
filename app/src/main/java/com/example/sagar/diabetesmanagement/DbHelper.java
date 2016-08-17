@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -251,11 +252,8 @@ public class DbHelper extends SQLiteOpenHelper {
     public int getDailyGlucoseLevel()
     {
         Calendar calendar = Calendar.getInstance();
-        final int  year = calendar.get(Calendar.YEAR);
-        final int  month = calendar.get(Calendar.MONTH) + 1;
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        String date = year+"-"+month+"-"+day;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date = formatter.format(calendar.getTime());
 
         int sum = 0;
         int cnt = 0;
@@ -282,18 +280,13 @@ public class DbHelper extends SQLiteOpenHelper {
     public int getWeeklyGlucoseLevel()
     {
         Calendar calendar = Calendar.getInstance();
-        final int  year = calendar.get(Calendar.YEAR);
-        final int  month = calendar.get(Calendar.MONTH) + 1;
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-        Calendar cal2 = Calendar.getInstance();
+           Calendar cal2 = Calendar.getInstance();
         cal2.add(Calendar.DAY_OF_MONTH,-7);
-        final int year2 = cal2.get(Calendar.YEAR);
-        final int month2 = cal2.get(Calendar.MONTH) +1;
-        final int day2 = cal2.get(Calendar.DAY_OF_MONTH);
 
-        String date = year+"-"+month+"-"+day;
-        String date2 = year2+"-"+month2+"-"+day2;
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date = formatter.format(calendar.getTime());
+        String date2 = formatter.format(cal2.getTime());
+
         int sum = 0;
         int cnt = 0;
         SQLiteDatabase db = this.getWritableDatabase();
@@ -321,18 +314,14 @@ public class DbHelper extends SQLiteOpenHelper {
     public int getMonthlyGlucoseLevel()
     {
         Calendar calendar = Calendar.getInstance();
-        final int  year = calendar.get(Calendar.YEAR);
-        final int  month = calendar.get(Calendar.MONTH) + 1;
-        final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         Calendar cal2 = Calendar.getInstance();
         cal2.add(Calendar.MONTH,-1);
-        final int year2 = cal2.get(Calendar.YEAR);
-        final int month2 = cal2.get(Calendar.MONTH) + 1 ;
-        final int day2 = cal2.get(Calendar.DAY_OF_MONTH);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+        String date = formatter.format(calendar.getTime());
+        String date2 = formatter.format(cal2.getTime());
 
-        String date = year+"-"+month+"-"+day;
-        String date2 = year2+"-"+month2+"-"+day2;
+
         int sum = 0;
         int cnt = 0;
         SQLiteDatabase db = this.getWritableDatabase();

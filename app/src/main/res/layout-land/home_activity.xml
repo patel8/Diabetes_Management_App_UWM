@@ -152,7 +152,7 @@
                     android:layout_gravity="center"
                     android:textAlignment="center"
                     android:hint = "-"
-                    android:editable="false"/>
+                    android:editable="false" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -164,7 +164,7 @@
                     android:layout_gravity="center"
                     android:textAlignment="center"
                     android:hint = "-"
-                    android:editable="false"/>
+                    android:editable="false" />
 
                 <EditText
                     android:layout_width="wrap_content"
@@ -176,7 +176,7 @@
                     android:layout_gravity="center"
                     android:textAlignment="center"
                     android:hint = "-"
-                    android:editable="false"/>
+                    android:editable="false" />
             </LinearLayout>
 
             <LinearLayout

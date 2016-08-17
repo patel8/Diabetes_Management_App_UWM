@@ -2,6 +2,7 @@ package com.example.sagar.diabetesmanagement;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -178,6 +179,7 @@ public void onButtonGraphIcon(View view)
         TextView DailyTextView = (TextView) findViewById(R.id.txtDaily);
         //Set the Text for Daily Text View
         int DailyGlcoseLevel = db.getDailyGlucoseLevel();
+        if(DailyGlcoseLevel > 300) DailyTextView.setTextColor(Color.RED);
         DailyTextView.setText(DailyGlcoseLevel+"");
 
 
@@ -192,6 +194,7 @@ public void onButtonGraphIcon(View view)
         TextView WeeklyTextView = (TextView) findViewById(R.id.txtWeekly);
         //Set the Text for Weekly Text View
         int WeeklyGlcoseLevel = db.getWeeklyGlucoseLevel();
+        if(WeeklyGlcoseLevel > 300) WeeklyTextView.setTextColor(Color.RED);
         WeeklyTextView.setText(WeeklyGlcoseLevel+"");
 
 
@@ -203,6 +206,7 @@ public void onButtonGraphIcon(View view)
         TextView MonthlyTextView = (TextView) findViewById(R.id.txtMonthly);
         //Set the Text for Monthly Text View
         int MonthlyGlcoseLevel = db.getMonthlyGlucoseLevel();
+        if(MonthlyGlcoseLevel > 300) MonthlyTextView.setTextColor(Color.RED);
         MonthlyTextView.setText(MonthlyGlcoseLevel+"");
     }
 

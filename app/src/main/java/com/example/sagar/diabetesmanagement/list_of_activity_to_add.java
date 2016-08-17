@@ -280,18 +280,9 @@ public class list_of_activity_to_add extends AppCompatActivity {
             final int  month = calendar.get(Calendar.MONTH)+1;
             final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-            String NewDay = day+"";
-            String NewMonth = month+"";
-            if(month < 10){
-
-                NewMonth = "0" + month;
-            }
-            if(day < 10){
-
-                NewDay  = "0" + day ;
-            }
-
-            dateWidget.setText(new StringBuilder().append(year).append("-").append(NewMonth).append("-").append(NewDay));
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+            String date = formatter.format(calendar.getTime());
+            dateWidget.setText(date);
             dateWidget.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
