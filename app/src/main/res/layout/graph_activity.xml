@@ -3,9 +3,19 @@
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.github.mikephil.charting.charts.BarChart
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Statistics"
+        android:id="@+id/btnStatistics"
+        android:layout_gravity="right"
+        android:background="#000000"
+        android:textColor="#ffffff" />
+
+    <com.github.mikephil.charting.charts.LineChart
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/chart"></com.github.mikephil.charting.charts.BarChart>
+        android:layout_height="0dp"
+        android:id="@+id/chart"
+        android:layout_weight="2"></com.github.mikephil.charting.charts.LineChart>
 
 </LinearLayout>

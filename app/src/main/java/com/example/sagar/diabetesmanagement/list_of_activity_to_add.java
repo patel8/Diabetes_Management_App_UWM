@@ -277,11 +277,21 @@ public class list_of_activity_to_add extends AppCompatActivity {
         {
             Calendar calendar = Calendar.getInstance();
             final int  year = calendar.get(Calendar.YEAR);
-            final int  month = calendar.get(Calendar.MONTH);
+            final int  month = calendar.get(Calendar.MONTH)+1;
             final int day = calendar.get(Calendar.DAY_OF_MONTH);
-            dateWidget.setText(new StringBuilder().append(month+1).append("/").append(day).append("/").append(year));
 
+            String NewDay = day+"";
+            String NewMonth = month+"";
+            if(month < 10){
 
+                NewMonth = "0" + month;
+            }
+            if(day < 10){
+
+                NewDay  = "0" + day ;
+            }
+
+            dateWidget.setText(new StringBuilder().append(year).append("-").append(NewMonth).append("-").append(NewDay));
             dateWidget.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -289,7 +299,19 @@ public class list_of_activity_to_add extends AppCompatActivity {
                     Dialog dg = new DatePickerDialog(list_of_activity_to_add.this, new DatePickerDialog.OnDateSetListener() {
                         @Override
                         public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                            dateWidget.setText(new StringBuilder().append(year).append("-").append(month+1).append("-").append(day));
+
+                            month++;
+                            String NewDay = day+"";
+                            String NewMonth = month+"";
+                            if(month < 10){
+
+                                NewMonth = "0" + month;
+                            }
+                            if(day < 10){
+
+                                NewDay  = "0" + day ;
+                            }
+                            dateWidget.setText(new StringBuilder().append(year).append("-").append(NewMonth).append("-").append(NewDay));
                         }
                     }, year, month, day);
                     dg.show();

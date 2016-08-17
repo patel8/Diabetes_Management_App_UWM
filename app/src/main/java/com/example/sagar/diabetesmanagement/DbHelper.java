@@ -72,11 +72,11 @@ public class DbHelper extends SQLiteOpenHelper {
     public static final String colDescription = "description";
     public static final String colApxCalorie = "apxcalorie";
     public static final String colFasting = "fasting";
-
+    public static final String colBGLAmount = "bglamount";
 
 
     public DbHelper(Context context) {
-        super(context, DBNAME, null, 3);
+        super(context, DBNAME, null, 4);
     }
     // this method could be created automatically otherwise, I have to create them: onCreate (), onUpgrade
     @Override
@@ -88,7 +88,7 @@ public class DbHelper extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE "+ TBLEXERCISE +"("+EXERCISEID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + STARTTIME + " DATETIME, " + ENDTIME + " DATETIME, " + DESCRIPTION + " TEXT)");
         db.execSQL("CREATE TABLE "+ TBLMEDICATION +"("+MEDICATIONID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + AMOUNT + " INTEGER, " + COMMENTS + " TEXT, " + TIMESTAMP + " DATETIME)");
         db.execSQL("CREATE TABLE "+ TBLPERSCRIBEDREGIMEN +"("+PRESCRIBEDREGIMENID+" INTEGER PRIMARY KEY AUTOINCREMENT, " + STARTTIME + " DATETIME, " + ENDTIME + " DATETIME, " + DIET + " TEXT, " + EXERCISE + " TEXT, " + MEDICATION + " TEXT, " + DESIREDBGL + " INTEGER)");
-        db.execSQL("CREATE TABLE "+ tblHistory +" ("+colId+" INTEGER PRIMARY KEY AUTOINCREMENT, " + colLable + " TEXT, " + colDate + " Date, " + colTime + " Time, " + colStartTime + " Time, " + colEndTime + " Time, " + colDescription + " Text, " + colApxCalorie +" Text, " + colFasting + " INTEGER)");
+        db.execSQL("CREATE TABLE "+ tblHistory +" ("+colId+" INTEGER PRIMARY KEY AUTOINCREMENT, " + colLable + " TEXT, " + colDate + " Date, " + colTime + " Time, " + colStartTime + " Time, " + colEndTime + " Time, " + colDescription + " Text, " + colApxCalorie +" Text, " + colFasting + " INTEGER, " + colBGLAmount + " INTEGER)");
     }
     @Override
     public void onUpgrade(SQLiteDatabase db, int i, int i1) {
@@ -114,6 +114,9 @@ public class DbHelper extends SQLiteOpenHelper {
 
         cValues.put(colDate, info.getDate());
         cValues.put(colEndTime, info.getEndTime());
+        if(info.getLabel().equalsIgnoreCase("bgl")){
+            cValues.put(colBGLAmount, info.getIntBGL());
+        }
         cValues.put(colDescription, info.getValue());
         cValues.put(colStartTime, info.getStartTime());
         cValues.put(colLable, info.getLabel());
@@ -136,6 +139,9 @@ public class DbHelper extends SQLiteOpenHelper {
         cV.put(colTime,info.getTime());
         cV.put(colStartTime,info.getStartTime());
         cV.put(colEndTime,info.getEndTime());
+        if(info.getLabel().equalsIgnoreCase("bgl")){
+            cV.put(colBGLAmount, info.getIntBGL());
+        }
         cV.put(colDescription,info.getValue());
         cV.put(colApxCalorie,info.getApxCalory());
         cV.put(colFasting,info.getFasting());
@@ -211,6 +217,11 @@ public class DbHelper extends SQLiteOpenHelper {
      * getMonthlyGlucoseLevel() // Return Int
      * updateCurrentRowWithId(Activity_information, id); Return Boolean
      */
+    public Cursor runQuery(String qry){
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor result = db.rawQuery(qry,null);
+        return result;
+    }
     public Cursor getAllData() {
         SQLiteDatabase db = this.getWritableDatabase();
 
@@ -315,7 +326,7 @@ public class DbHelper extends SQLiteOpenHelper {
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
 
         Calendar cal2 = Calendar.getInstance();
-         cal2.add(Calendar.MONTH,-1);
+        cal2.add(Calendar.MONTH,-1);
         final int year2 = cal2.get(Calendar.YEAR);
         final int month2 = cal2.get(Calendar.MONTH) + 1 ;
         final int day2 = cal2.get(Calendar.DAY_OF_MONTH);
@@ -344,23 +355,89 @@ public class DbHelper extends SQLiteOpenHelper {
         }
     }
 
+
+//    public int getMonthlyGlucoseLevel(){
+//        return 0;
+//    }
+
     public Cursor getAllBGLwithTimeStamp()
     {
         String query = "Select * from "+ tblHistory + " where " + colLable + " = 'BGL'";
         return this.getWritableDatabase().rawQuery(query, null);
     }
 
-    public ArrayList<Activity_Information> getInfoWithFilterdQuery(filterQuery query) {
-        Cursor cursor = getWritableDatabase().rawQuery(query.Query(), null);
-        return cursorToArrayList(cursor);
+//    public ArrayList<Activity_Information> getInfoWithFilterdQuery(filterQuery query) {
+//        Cursor cursor = getWritableDatabase().rawQuery(query.Query(), null);
+//        return cursorToArrayList(cursor);
+//    }
+
+    public ArrayList<Activity_Information> cursorToArrayList(Cursor cursor) {
+        ArrayList<Activity_Information> result = new ArrayList<>();
+        while(cursor.moveToNext()){
+            Activity_Information info = new Activity_Information();
+            info.setId(Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.colId))));
+            info.setLabel(cursor.getString(cursor.getColumnIndex(DbHelper.colLable)));
+            info.setDate(cursor.getString(cursor.getColumnIndex(DbHelper.colDate)));
+            info.setTime(cursor.getString(cursor.getColumnIndex(DbHelper.colTime)));
+            info.setStartTime(cursor.getString(cursor.getColumnIndex(DbHelper.colStartTime)));
+            info.setEndTime(cursor.getString(cursor.getColumnIndex(DbHelper.colEndTime)));
+            info.setValue(cursor.getString(cursor.getColumnIndex(DbHelper.colDescription)));
+            info.setApxCalory(cursor.getString(cursor.getColumnIndex(DbHelper.colApxCalorie)));
+            int fasting = Integer.parseInt(cursor.getString(cursor.getColumnIndex(DbHelper.colFasting)));
+            if(fasting == 1)
+                info.setFasting(true);
+            else
+                info.setFasting(false);
+            result.add(info);
+        }
+
+        return result;
+
+
     }
 
-    private ArrayList<Activity_Information> cursorToArrayList(Cursor cursor) {
-        ArrayList<Activity_Information> result = new ArrayList<>();
+    public int getBGLStatsMin(String qry){
+        int result = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
 
-
+        Cursor cMin = db.rawQuery("select min(bglamount) as MINBGL from ("+qry+")" ,null);
+        while(cMin.moveToFirst()) {
+            result=(cMin.getInt(cMin.getColumnIndex("MINBGL")));
+            break;
+        }
         return result;
     }
 
+    public int getBGLStatsAvg(String qry){
+        int result = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cAvg = db.rawQuery("select avg(bglamount) as AVGBGL from ("+qry+")" ,null);
+        while(cAvg.moveToFirst()) {
+            result=(cAvg.getInt(cAvg.getColumnIndex("AVGBGL")));
+            break;
+        }
+        return result;
+    }
+
+    public int getBGLStatsMax(String qry){
+        int result = 0;
+        SQLiteDatabase db = this.getWritableDatabase();
+
+        Cursor cMax = db.rawQuery("select max(bglamount) as MAXBGL from ("+qry+")" ,null);
+        while(cMax.moveToFirst()) {
+            result=(cMax.getInt(cMax.getColumnIndex("MAXBGL")));
+            break;
+        }
+        return result;
+    }
+
+    public ArrayList<Integer> getBGLStats(String qry){
+        ArrayList<Integer> result = new ArrayList<Integer>();
+        result.add(getBGLStatsMin(qry));
+        result.add(getBGLStatsAvg(qry));
+        result.add(getBGLStatsMax(qry));
+        return result;
+    }
 
 }

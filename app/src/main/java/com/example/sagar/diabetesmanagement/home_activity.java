@@ -33,8 +33,8 @@ public class home_activity extends AppCompatActivity {
         historyButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
-                intent.putExtra("ActivityInfo", "History");
+                Intent intent = new Intent(getApplicationContext(), history.class);
+                //intent.putExtra("ActivityInfo", "History");
                 startActivity(intent);
             }
         });
@@ -51,7 +51,7 @@ public class home_activity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
-                intent.putExtra("History", "GraphFood");
+                intent.putExtra("ActivityInfo", "BGL Food");
                 startActivity(intent);
             }
         });

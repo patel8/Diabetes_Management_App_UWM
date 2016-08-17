@@ -2,6 +2,7 @@ package com.example.sagar.diabetesmanagement;
 
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,13 +16,14 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.logging.Filter;
 
 
 public class FilterActivity extends AppCompatActivity {
 
-     String ActivityName = "";
+    String ActivityName = "";
 
     LinearLayout WholeParameterBGL;
     LinearLayout WholeParameterFood;
@@ -47,6 +49,7 @@ public class FilterActivity extends AppCompatActivity {
     EditText txtFoodDescriptionVal;
 
     Button buttonFiler;
+    DbHelper dbHelper;
 
     private boolean isGraph;
 
@@ -55,6 +58,7 @@ public class FilterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         setContentView(R.layout.filter_activity);
         ActivityName = getIntent().getStringExtra("ActivityInfo");
+        dbHelper = new DbHelper(this);
         registerWidgets();
         registerListener();
         showandHide(ActivityName);
@@ -82,9 +86,36 @@ public class FilterActivity extends AppCompatActivity {
                 filterquery.setFoodDescription(txtFoodDescriptionVal.getText().toString());
                 filterquery.setMedicineDescription(txtMedicineDescriptionVal.getText().toString());
 
+                filterquery.setFromDate(DateViewFrom.getText().toString());
+                filterquery.setToDate(DateViewTo.getText().toString());
+
                 filterquery.setMinBGL(txtFrommMinimum.getText().toString());
                 filterquery.setMaxBGL(txtToMaximum.getText().toString());
 
+                switch (ActivityName) {
+                    case "BGL Graph":
+                        Intent intent = new Intent(FilterActivity.this, graph_activity.class);
+                        //intent = new Intent(FilterActivity.this, graph_activity.class);
+                        intent.putExtra("Query", filterquery.Query());
+                        startActivity(intent);
+                        break;
+
+
+                    case "Food Graph":
+
+
+                        break;
+                    case "Exercise Graph":
+
+
+                        break;
+                    case "Medicine Graph":
+
+
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
@@ -95,6 +126,19 @@ public class FilterActivity extends AppCompatActivity {
         final int  year = calendar.get(Calendar.YEAR);
         final int  month = calendar.get(Calendar.MONTH);
         final int day = calendar.get(Calendar.DAY_OF_MONTH);
+
+        String NewDay = day+"";
+        String NewMonth = (month)+"";
+        if(month < 10){
+
+            NewMonth = "0" + month;
+        }
+        if(day < 10){
+
+            NewDay  = "0" + day ;
+        }
+        dateWidget.setText(new StringBuilder().append(year).append("-").append(NewMonth).append("-").append(NewDay));
+
         dateWidget.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -102,10 +146,21 @@ public class FilterActivity extends AppCompatActivity {
                 Dialog dg = new DatePickerDialog(FilterActivity.this, new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                        dateWidget.setText(new StringBuilder().append(year).append("-").append(month+1).append("-").append(day));
+
+                        month++;
+                        String NewDay = day+"";
+                        String NewMonth = month+"";
+                        if(month < 10){
+
+                            NewMonth = "0" + month;
+                        }
+                        if(day < 10){
+
+                            NewDay  = "0" + day ;
+                        }
+                        dateWidget.setText(new StringBuilder().append(year).append("-").append(NewMonth).append("-").append(NewDay));
                     }
                 }, year, month, day);
-
                 dg.show();
 
             }
@@ -172,7 +227,7 @@ public class FilterActivity extends AppCompatActivity {
         chkBoxFood = (CheckBox)findViewById(R.id.chkBoxFood);
         chkBoxExercise = (CheckBox)findViewById(R.id.chkBoxExercise);
         chkBoxMedicine = (CheckBox)findViewById(R.id.chkBoxMedicine);
-         WholeParameterBGL= (LinearLayout) findViewById(R.id.WholeParameterBGL);
+        WholeParameterBGL= (LinearLayout) findViewById(R.id.WholeParameterBGL);
         WholeParameterFood= (LinearLayout) findViewById(R.id.WholeParameterFood);
         WholeParameterExercise= (LinearLayout) findViewById(R.id.WholeParameterExercise);
         WholeParameterMedicine= (LinearLayout) findViewById(R.id.WholeParameterMedicine);

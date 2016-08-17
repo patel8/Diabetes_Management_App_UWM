@@ -1,18 +1,14 @@
 package com.example.sagar.diabetesmanagement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
-
+import android.support.v7.app.AppCompatActivity;
 /**
  * Created by Sagar on 8/13/2016.
  */
-public class filterQuery {
+public class filterQuery{
     String fromDate;
     String toDate;
-    boolean isBGLChecked;
-    boolean isExerciseChecked;
-    boolean isFoodChecked;
-    boolean isMedicineChecked;
-
     String MinBGL;
     String MaxBGL;
     String FoodDescription;
@@ -95,30 +91,39 @@ public class filterQuery {
     }
 
     public String Query(){
-        String query ="";
-        //Construct the query here
 
+        String query ="";
+        ArrayList<Activity_Information> result = new ArrayList<>();
+
+        //Construct the query here
         for(int i=0; i< checkedItem.size(); i++)
         {
             switch (checkedItem.get(i))
             {
+
                 case "Exercise":
                     //Code goes here
+                    query = "select * from history where (lable = 'Exercise') and (description like '%" + ExerciseDescription + "%') and (date between '" + fromDate + "' and '" + toDate + "') order by date, time";
+                    //result.addAll(db.cursorToArrayList(db.runQuery(query)));
                     break;
                 case "Food":
                     //Code goes here
+                    query = "select * from history where (lable = 'Food') and (description like '%" + FoodDescription + "%') and (date between '" + fromDate + "' and '" + toDate + "') order by date, time";
+                    // result.addAll(db.cursorToArrayList(db.runQuery(query)));
                     break;
                 case "BGL":
                     //code goes here
+                    query = "select * from history where (lable = 'BGL') and (bglamount between " + MinBGL + " and "+ MaxBGL +") and (date between '" + fromDate + "' and '" + toDate + "') order by date, time";
+                    //  result.addAll(db.cursorToArrayList(db.runQuery(query)));
                     break;
                 case "Medicine":
                     //code goes here
+                    query = "select * from history where (lable = 'Medicine') and (description like '%" + MedicineDescription + "%')  and (date between '" + fromDate + "' and '" + toDate + "') order by date, time";
+                    // result.addAll(db.cursorToArrayList(db.runQuery(query)));
                     break;
             }
         }
 
-
-
-        return query;
+        return query ;
     }
 }

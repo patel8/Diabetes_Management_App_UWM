@@ -33,6 +33,19 @@ public class Activity_Information implements Serializable {
         this.apxCalory = apxCalory;
     }
 
+    public int getIntBGL(){
+        int result = -1;
+        try{
+            result = Integer.parseInt(value);
+        }
+        catch(Exception es)
+        {
+            result = -1;
+        }
+
+        return result;
+    }
+
     public String getDate() {
         return date;
     }
