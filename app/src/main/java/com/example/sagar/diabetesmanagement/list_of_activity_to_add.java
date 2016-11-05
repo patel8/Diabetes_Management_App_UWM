@@ -213,11 +213,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
                             Toast.makeText(getContext(), " DATA HAS BEEN STORED SUCCESSFULLY!!", Toast.LENGTH_LONG).show();
 
                             infoHolder.DisableEverything();
-
-
-
                         }
-
                         else
                             Toast.makeText(getContext(), " SORRY!! DATA HAS BEEN NOT STORED SUCCESSFULLY!!",Toast.LENGTH_LONG).show();
 
@@ -225,11 +221,6 @@ public class list_of_activity_to_add extends AppCompatActivity {
 
                     }
                 });
-
-                final int year = 2333;
-                final int month = 3;
-                final int day = 2;
-
 
                 setDate(infoHolder.DateView);
                 setTime(infoHolder.startTime);
@@ -239,10 +230,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
                 customView.setTag(infoHolder);
 
             }
-            else
-            {
-                infoHolder = (holder) customView.getTag();
-            }
+
             return customView;
         }
         private class holder{
