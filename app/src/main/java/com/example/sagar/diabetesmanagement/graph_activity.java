@@ -78,6 +78,9 @@ public class graph_activity extends AppCompatActivity
         }
 
         LineData data = new LineData(labels, dataset);
+
+        barChart.setPinchZoom(true);
+
         barChart.setData(data);
     }
 

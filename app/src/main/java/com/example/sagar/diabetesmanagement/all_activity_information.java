@@ -46,9 +46,6 @@ public class all_activity_information extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.inserting_information);
 
-
-
-
         intent = getIntent();
 
         saveButton = (Button) findViewById(R.id.saveButton);
@@ -101,6 +98,10 @@ public class all_activity_information extends AppCompatActivity {
         }
 
 
+        if(label.getText().equals("Medicine"))
+        {
+            ApxCalorieLabel.setText("Amount(mg)");
+        }
 
 
         setDate(DateView);

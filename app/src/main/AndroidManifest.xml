@@ -24,17 +24,28 @@
             android:label="@string/EditActivity" />
         <activity
             android:name=".list_of_activity_to_add"
-            android:label="@string/AddActivity" />
+            android:label="@string/AddActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".graph_activity"
-            android:label="@string/AddActivity" />
+            android:label="BGL Graph" />
         <activity
             android:name=".history"
             android:label="@string/historyActivity" />
-        <activity android:name=".FilterActivity" />
-        <activity android:name=".food_graph_activity" />
-        <activity android:name=".exercise_graph_activity" />
-        <activity android:name=".medicine_graph_activity"></activity>
+        <activity android:name=".FilterActivity" android:label="Filter" />
+        <activity android:name=".food_graph_activity" android:label="Food Graph"/>
+        <activity android:name=".exercise_graph_activity" android:label="Exercise Graph"/>
+        <activity android:name=".medicine_graph_activity" android:label="Medicine Graph"></activity >
+
+        <activity
+            android:name=".all_notification_information"
+            android:label="Edit Notification" />
+
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

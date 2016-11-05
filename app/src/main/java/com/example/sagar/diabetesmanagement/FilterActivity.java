@@ -312,8 +312,8 @@ public class FilterActivity extends AppCompatActivity {
                 break;
             case "Medicine Graph":
                 //Hide everything else but Medicine
-                WholeParameterExercise.setVisibility(View.GONE);
-                WholeParameterExercise.setVisibility(View.GONE);
+                WholeParameterFood.setVisibility(View.GONE);
+                WholeParameterBGL.setVisibility(View.GONE);
                 WholeParameterExercise.setVisibility(View.GONE);
                 isGraph = true;
 

@@ -51,9 +51,30 @@ public class home_activity extends AppCompatActivity {
         AlarmButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
-                intent.putExtra("ActivityInfo", "BGL Food");
-                startActivity(intent);
+
+                final CharSequence[] items = {"Food","BGL","Exercise", "Medicine"};
+// arraylist to keep the selected items
+
+
+                AlertDialog dialog = new AlertDialog.Builder(home_activity.this)
+                        .setTitle("Select an Activity")
+                        .setSingleChoiceItems(items, 0, null)
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+                                Intent intent = new Intent(home_activity.this, all_notification_information.class);
+                                intent.putExtra("ActivityInfo", items[selectedPosition]);
+                                startActivity(intent);
+                            }
+                        }).setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                //  Your code when user clicked on Cancel
+                            }
+                        }).create();
+                dialog.show();
+
             }
         });
 

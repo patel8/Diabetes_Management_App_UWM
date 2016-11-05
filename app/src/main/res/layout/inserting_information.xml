@@ -45,7 +45,9 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:hint="Description"
-        android:background="@drawable/abc_edit_text_material" />
+        android:background="@drawable/abc_edit_text_material"
+
+        />
 
     <LinearLayout
         android:orientation="horizontal"

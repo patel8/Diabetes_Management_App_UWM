@@ -10,18 +10,9 @@
         android:id="@+id/listOfActivity"
         android:layout_weight="10"
         android:scrollbars="vertical"
+        android:descendantFocusability="beforeDescendants"
+
        />
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:text="+ ADD ACTIVITY"
-        android:id="@+id/buttonAddActivityThroughList"
-        android:layout_weight="1"
-        android:background="@android:color/holo_red_light"
-        android:textColor="@color/White"
-        android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_margin="10dp"
-        android:onClick="onButtonAddActivityThroughList"/>
+
 </LinearLayout>

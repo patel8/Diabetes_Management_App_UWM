@@ -1,7 +1,8 @@
 package com.example.sagar.diabetesmanagement;
 
+import android.app.Activity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+//import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -9,7 +10,7 @@ import android.widget.TextView;
 /**
  * Created by Ehab on 7/31/2016.
  */
-public class UI_history extends AppCompatActivity {
+public class UI_history extends Activity {
 //    private LinearLayout layoutdate;
 //    private LinearLayout layoutLabel;
 //    private LinearLayout layoutData;

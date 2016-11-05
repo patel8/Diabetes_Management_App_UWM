@@ -103,13 +103,14 @@ public class filterQuery{
 
                 case "Exercise":
                     //Code goes here
-                    query = "select * from history where (lable = 'Exercise') and (description like '%" + ExerciseDescription + "%') and (date between '" + fromDate + "' and '" + toDate + "') order by date, time";
+                    query = "select description, sum(apxcalorie) as count from history where (lable = 'Exercise') and (description like '%" + ExerciseDescription + "%') and (date between '" + fromDate + "' and '" + toDate + "') group by description";
                     //result.addAll(db.cursorToArrayList(db.runQuery(query)));
                     break;
                 case "Food":
                     //Code goes here
-                    query = "select * from history where (lable = 'Food') and (description like '%" + FoodDescription + "%') and (date between '" + fromDate + "' and '" + toDate + "') order by date, time";
+                    //query = "select * from history where (lable = 'Food') and (description like '%" + FoodDescription + "%') and (date between '" + fromDate + "' and '" + toDate + "') order by date, time";
                     // result.addAll(db.cursorToArrayList(db.runQuery(query)));
+                    query = "select description, count(*) as count from history where ((date between '" + fromDate + "' and '" + toDate + "') and (lable = 'Food') and (description like '%"+ FoodDescription +"%')) group by description";
                     break;
                 case "BGL":
                     //code goes here
@@ -118,7 +119,7 @@ public class filterQuery{
                     break;
                 case "Medicine":
                     //code goes here
-                    query = "select * from history where (lable = 'Medicine') and (description like '%" + MedicineDescription + "%')  and (date between '" + fromDate + "' and '" + toDate + "') order by date, time";
+                    query =  "select description, count(*) as count from history where ((date between '" + fromDate + "' and '" + toDate + "') and (lable = 'Medicine') and (description like '%"+ MedicineDescription +"%')) group by description";
                     // result.addAll(db.cursorToArrayList(db.runQuery(query)));
                     break;
             }

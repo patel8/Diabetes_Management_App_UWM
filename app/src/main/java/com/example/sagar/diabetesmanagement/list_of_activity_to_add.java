@@ -14,6 +14,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -54,18 +57,38 @@ public class list_of_activity_to_add extends AppCompatActivity {
 
 
         //Set Reference to List View in Layout.
-          addActivity = (Button) findViewById(R.id.buttonAddActivityThroughList);
-          listView = (ListView) findViewById(R.id.listOfActivity);
-          finalList = getIntent().getStringArrayListExtra("SelectedItem");
-          titleAdapter = new custom_adapter(this);
-          listView.setAdapter(titleAdapter);
+        //addActivity = (Button) findViewById(R.id.buttonAddActivityThroughList);
+        listView = (ListView) findViewById(R.id.listOfActivity);
+        finalList = getIntent().getStringArrayListExtra("SelectedItem");
+        titleAdapter = new custom_adapter(this);
+        listView.setAdapter(titleAdapter);
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
 
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.addactivity, menu);
+        return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.addItem:
+                // User chose the "Settings" item, show the app settings UI...
+                onButtonAddActivityThroughList();
+                return true;
+            default:
+                // If we got here, the user's action was not recognized.
+                // Invoke the superclass to handle it.
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
 
     //This is ADD ACTIVITY BUTTON at bottom of screen. This will ask user to add more Activity and also will add it to the
-    public void onButtonAddActivityThroughList(View view){
+    public void onButtonAddActivityThroughList(){
 
         final CharSequence[] items = {"Food","BGL","Exercise", "Medicine"};
 // arraylist to keep the selected items
@@ -89,7 +112,7 @@ public class list_of_activity_to_add extends AppCompatActivity {
                     public void onClick(DialogInterface dialog, int id) {
                         if(!seletedItems.isEmpty()) {
                             finalList.addAll(seletedItems);
-                           ((BaseAdapter) titleAdapter).notifyDataSetChanged();
+                            ((BaseAdapter) titleAdapter).notifyDataSetChanged();
                         }
                         else
                         {
@@ -336,7 +359,6 @@ public class list_of_activity_to_add extends AppCompatActivity {
                 }
             });
         }
-
 
 
 
